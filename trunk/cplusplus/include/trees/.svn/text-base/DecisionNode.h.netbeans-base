@@ -1,0 +1,57 @@
+
+#ifndef DECISION_NODE_H
+#define DECISION_NODE_H
+
+#include "trees/TreeNode.h"
+#include "trees/information_gain.h"
+#include <vector>
+#include <iostream>
+
+class DecisionNode: public TreeNode {
+
+protected:
+  int column_for_next_split_;
+  double feature_value_;
+  int feature_;
+  ThresholdType threshold_type_;
+  int class_group_;
+
+public:
+
+  int get_column_for_next_split() const {
+    return column_for_next_split_;
+  }
+  void set_column_for_next_split(int t) {
+    column_for_next_split_ = t;
+  }
+
+  double get_feature_value() const {
+    return feature_value_;
+  }
+  double set_feature_value(int t) {
+    feature_value_ = t;
+  }
+
+  int get_feature() const {
+    return feature_;
+  }
+  void set_feature(int t) {
+    feature_ = t;
+  }
+
+  int get_class_group() const {
+    return class_group_;
+  }
+  void set_class_group(int t) {
+    class_group_ = t;
+  }
+
+  bool matches_value(double value, bool is_categorical);
+
+};
+
+
+
+
+
+#endif

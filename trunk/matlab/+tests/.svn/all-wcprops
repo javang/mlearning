@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/mlearning/!svn/ver/50/trunk/matlab/+tests
+END
+golf_test.csv
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/mlearning/!svn/ver/21/trunk/matlab/+tests/golf_test.csv
+END
+golf.csv
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/mlearning/!svn/ver/17/trunk/matlab/+tests/golf.csv
+END
+leeme.txt
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/mlearning/!svn/ver/18/trunk/matlab/+tests/leeme.txt
+END
+testinfogain.m
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/mlearning/!svn/ver/50/trunk/matlab/+tests/testinfogain.m
+END
+golf_test_continuous.csv
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/mlearning/!svn/ver/21/trunk/matlab/+tests/golf_test_continuous.csv
+END
+golf_continuous.csv
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/mlearning/!svn/ver/21/trunk/matlab/+tests/golf_continuous.csv
+END
+training.mat
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/mlearning/!svn/ver/22/trunk/matlab/+tests/training.mat
+END
+test_trees.m
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/mlearning/!svn/ver/22/trunk/matlab/+tests/test_trees.m
+END
+test_randomforest.m
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/mlearning/!svn/ver/22/trunk/matlab/+tests/test_randomforest.m
+END
+test.mat
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/mlearning/!svn/ver/22/trunk/matlab/+tests/test.mat
+END

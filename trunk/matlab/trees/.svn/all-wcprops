@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/mlearning/!svn/ver/28/trunk/matlab/trees
+END
+DecisionNode.m
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/mlearning/!svn/ver/22/trunk/matlab/trees/DecisionNode.m
+END
+RandomForest.m
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/mlearning/!svn/ver/56/trunk/matlab/trees/RandomForest.m
+END
+BinaryDataNode.m
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/mlearning/!svn/ver/14/trunk/matlab/trees/BinaryDataNode.m
+END
+TreeNode.m
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/mlearning/!svn/ver/28/trunk/matlab/trees/TreeNode.m
+END
+BinaryTreeNode.m
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/mlearning/!svn/ver/5/trunk/matlab/trees/BinaryTreeNode.m
+END
+depth_first.m
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/mlearning/!svn/ver/14/trunk/matlab/trees/depth_first.m
+END
+DecisionTree.m
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/mlearning/!svn/ver/58/trunk/matlab/trees/DecisionTree.m
+END
+DataNode.m
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/mlearning/!svn/ver/4/trunk/matlab/trees/DataNode.m
+END
+Tree.m
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/mlearning/!svn/ver/16/trunk/matlab/trees/Tree.m
+END

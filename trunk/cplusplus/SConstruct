@@ -1,0 +1,60 @@
+import os
+import os.path
+from colorizer import colorizer
+
+home=os.environ["HOME"]
+path=os.environ["PATH"]
+term = os.environ["TERM"]
+
+env = Environment()
+env['ENV'] = {'PATH' : path, 'TERM' : term, 'HOME' : home}
+env['CPPPATH'] = ['.',"include"] # search for includes
+
+# for nice compiling colors
+col = colorizer()
+col.colorize(env)
+
+
+# preparation of repositories
+env.Repository('')
+env.Repository('tests')
+
+
+# configure
+conf = Configure(env)
+if conf.CheckCXXHeader("boost/shared_ptr.hpp"):
+    print "Cool, you have boost"
+else:
+    print "This program requires boost"
+    quit()
+env = conf.Finish()
+
+
+# build a shared library from 2 directories
+cwd = os.getcwd()
+src = os.path.join(cwd,"src","trees")
+names = [os.path.join(src,x) for x in ["TreeNode.cpp", "DecisionNode.cpp",
+                                            "Tree.cpp"] ]
+
+"""
+src_caca = os.path.join(cwd,"src","caca")
+names_caca = [os.path.join(src_caca,x) for x in ["Caca.cpp"] ]
+env.SharedLibrary('mlearn', names+names_caca)
+"""
+env.SharedLibrary('mlearn', names)
+
+# build a program
+# env.Program('test', "test.cpp", LIBS=['mlearn'],LIBPATH="." )
+
+
+# build the tests 
+"""
+gtest = os.path.join(home,"gtest-1.6.0") # Google unittest library
+env.Repository(gtest)
+test_programs = ["test_tree_node", "test_tree"]
+for program in test_programs:
+  env.Program(program, program+'.cpp',
+          LIBS=["gtest", "pthread",'mlearn'],
+          LIBPATH = [".","trees", os.path.join(gtest,"build")]
+        )
+"""

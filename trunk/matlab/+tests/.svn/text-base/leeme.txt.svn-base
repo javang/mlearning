@@ -1,0 +1,6 @@
+Para correr los tests:
+
+addpath '~/matlab/matlab_xunit/xunit/'
+
+Run like this example:
+runtests tests.trees 

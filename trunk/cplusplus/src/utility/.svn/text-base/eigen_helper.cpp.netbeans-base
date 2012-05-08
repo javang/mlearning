@@ -1,0 +1,18 @@
+
+#include "utility/eigen_helper.h"
+#include "utility/errors.h"
+
+ArrayXd divide_colwise(const ArrayXd &a, const ArrayXd &x) {
+  if(x.cols() > 1 || x.rows() != a.rows()) {
+    throw ValueError("divide_colwise: second argument has incorrect dimensions");
+  }
+  unsigned int cols = a.cols();
+  unsigned int rows = a.rows();
+  ArrayXd result(rows, cols);
+  for (unsigned int i = 0; i < cols; ++i) {
+    result.block(0, i, rows, 1).array() = 
+                                    a.block(0, i, rows, 1).array() / x.array(); 
+    std::cout << "Block " << std::endl << a.block(0, i, rows, 1) << std::endl;
+  }
+  return result;
+}

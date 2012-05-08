@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/mlearning/!svn/ver/52/trunk/cplusplus/include/utility
+END
+eigen_helper.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/mlearning/!svn/ver/52/trunk/cplusplus/include/utility/eigen_helper.h
+END
+definitions.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/mlearning/!svn/ver/58/trunk/cplusplus/include/utility/definitions.h
+END
+errors.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/mlearning/!svn/ver/46/trunk/cplusplus/include/utility/errors.h
+END

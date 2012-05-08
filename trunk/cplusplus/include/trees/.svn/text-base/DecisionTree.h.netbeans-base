@@ -1,0 +1,49 @@
+/* 
+ * File:   DecisionTree.h
+ * Author: javi
+ *
+ * Created on May 7, 2012, 7:35 PM
+ */
+
+#ifndef DECISIONTREE_H
+#define	DECISIONTREE_H
+
+#include "trees/Tree.h"
+
+class DecisionTree: public Tree {
+protected:
+        InformationMeasure information_measure_;
+public:
+
+  void train(const MatrixXd &data,
+              const VectorXi &classes,
+              VariableTypes is_categorical) {};
+  
+  VectorXi predict(const MatrixXd &data) {
+    VectorXi v;
+    return v;
+  };
+
+  
+    /**
+   * Sets the information measure used for classification
+   * @param information_measure
+   */
+  void set_information_measure(InformationMeasure information_measure) {
+    this->information_measure_ = information_measure;
+  }
+
+  /**
+   * Retrieve the information measure in use
+   * @return 
+   */
+  InformationMeasure get_information_measure() const {
+    return information_measure_;
+  }
+
+};
+  
+typedef std::vector<DecisionTree> DecisionTrees;
+
+#endif	/* DECISIONTREE_H */
+

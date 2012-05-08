@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/mlearning/!svn/ver/54/trunk/cplusplus/include/trees
+END
+DecisionNode.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/mlearning/!svn/ver/58/trunk/cplusplus/include/trees/DecisionNode.h
+END
+RandomForest.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/mlearning/!svn/ver/56/trunk/cplusplus/include/trees/RandomForest.h
+END
+information_gain.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/mlearning/!svn/ver/58/trunk/cplusplus/include/trees/information_gain.h
+END
+TreeNode.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/mlearning/!svn/ver/58/trunk/cplusplus/include/trees/TreeNode.h
+END
+DecisionTree.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/mlearning/!svn/ver/58/trunk/cplusplus/include/trees/DecisionTree.h
+END
+Tree.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/mlearning/!svn/ver/56/trunk/cplusplus/include/trees/Tree.h
+END

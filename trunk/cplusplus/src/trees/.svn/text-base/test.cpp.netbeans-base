@@ -1,0 +1,95 @@
+
+#include "trees/TreeNode.h"
+#include "trees/Tree.h"
+#include <iostream>
+#include <algorithm>
+
+void my_name(TreeNodePtr node) {
+  std::cout << "===> My name: " << node->get_name() << std::endl;
+  TreeNodePtr x(new TreeNode("x"));
+  x->add_child(node);
+  std::cout << "x children " << x->get_number_of_children() << std::endl;
+}
+
+// Pass by reference because they are not modified
+void print_ref_counts(int step, const TreeNodePtrs &nodes) {
+  std::cout << "/******* STEP  "<< step << " ********************/" << std::endl;
+  TreeNodePtrs::const_iterator it = nodes.begin();
+  for(it = nodes.begin(); it != nodes.end(); ++it) {
+    std::cout << "name: " << (*it)->get_name()
+              << " || ref count " << (*it).use_count() << std::endl;
+  }
+  std::cout << "/***************************/" << std::endl;
+}
+
+void print_children(const TreeNodePtr &node) {
+  std::cout << "Node : " << node->get_name() << std::endl;
+  TreeNodePtrs children = node->get_children();
+  for(TreeNodePtrs::iterator it = children.begin(); it != children.end(); ++it) {
+      std::cout << " * child " << (*it)->get_name() << std::endl;
+  }
+}
+
+int main(int argc, char **argv) {
+  TreeNodePtr zero(new TreeNode("zero"));
+  TreeNodePtr one(new TreeNode("one"));
+  TreeNodePtr two(new TreeNode("two"));
+  TreeNodePtr three(new TreeNode("three"));
+  TreeNodePtr four(new TreeNode("four"));
+  TreeNodePtr five(new TreeNode("five"));
+  TreeNodePtr six(new TreeNode("six"));
+  TreeNodePtr seven(new TreeNode("seven"));
+//  TreeNodePtrs nodes  = {zero, one, two, three, four, five, six, seven};
+  TreeNodePtrs nodes;
+  nodes.push_back(zero);
+  nodes.push_back(one);
+  nodes.push_back(two);
+  nodes.push_back(three);
+  nodes.push_back(four);
+  nodes.push_back(five);
+  nodes.push_back(six);
+  nodes.push_back(seven);
+  
+  print_ref_counts(0, nodes);
+
+  one->add_child(zero);
+  one->add_child(two);
+  one->add_child(three);
+  print_ref_counts(1, nodes);
+
+  two->add_child(four);
+  print_ref_counts(2, nodes);
+
+  TreeNodePtrs children = one->get_children();
+  print_ref_counts(3, nodes);
+
+  for(TreeNodePtrs::iterator it = children.begin(); it != children.end(); ++it) {
+      std::cout << "child " << (*it)->get_name() << std::endl;
+  }
+
+  //six->add_child(four); // This line is wrong! Four cannot have 2 parents!
+
+  five->add_child(one);
+  seven->add_child(five);
+  print_ref_counts(4,nodes);
+
+
+  Tree tree(seven);
+  tree.print_tree();
+  print_ref_counts(5,nodes);
+
+  for(TreeNodePtrs::const_iterator it = nodes.begin(); it != nodes.end(); ++it) {
+    print_children((*it));
+  }
+  nodes.clear();
+  // Print the reference counts manually (I have destroyed nodes)
+  std::cout << "name: " << one->get_name() << " || ref count " << one.use_count() << std::endl;
+  std::cout << "name: " << two->get_name() << " || ref count " << two.use_count() << std::endl;
+  std::cout << "name: " << three->get_name() << " || ref count " << three.use_count() << std::endl;
+  std::cout << "name: " << four->get_name() << " || ref count " << four.use_count() << std::endl;
+  std::cout << "name: " << five->get_name() << " || ref count " << five.use_count() << std::endl;
+  std::cout << "name: " << six->get_name() << " || ref count " << six.use_count() << std::endl;
+  std::cout << "name: " << seven->get_name() << " || ref count " << seven.use_count() << std::endl;
+
+}
+
