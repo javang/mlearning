@@ -31,7 +31,7 @@ public:
   };
 
   TreeNode(const std::string &name) {
-    parent_ = std::nullptr;
+    parent_ = nullptr;
     name_ = name;
     init();
   };
