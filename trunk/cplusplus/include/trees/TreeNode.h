@@ -58,7 +58,7 @@ public:
     return parent_;
   }
   void set_parent(TreeNode *t) {
-    if(parent_ != NULL) {
+    if(parent_ != nullptr) {
       throw WrongParent();
     }
     parent_ = t;
