@@ -12,7 +12,7 @@
 
 TEST(TestAlgorithms, TestArgsort) {
   std::vector<double> v;
-  std::srand(time(NULL));
+  std::srand(time(nullptr));
   for (unsigned int i = 0; i <100; ++i) {
     v.push_back(std::rand());
   }

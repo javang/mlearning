@@ -5,7 +5,7 @@
 void TreeNode::init() {
   first_child_ = TreeNodePtr();
   next_sibling_ = TreeNodePtr();
-  parent_ = NULL;
+  parent_ = nullptr;
 }
 
 TreeNode::TreeNode(TreeNode* parent, TreeNodePtr first_child,

@@ -15,7 +15,7 @@ public:
   }
 
   Tree(TreeNodePtr root) {
-    root_ = root;
+    root_ = root ;
   }
 
   void print_tree() const {
