@@ -86,7 +86,7 @@ classdef DecisionTree < Tree & handle
                     [g, thr] = info_gain(X(:, i), Y, ...
                             self.are_categorical(i), self.gain_measure);
                     if(g > bestGain)
-                        bestGain = g;
+                        bestGain = g; 
                         best_feature = i;
                         threshold = thr;
                     end

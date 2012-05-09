@@ -49,6 +49,8 @@ public:
   }
 
   unsigned int DecisionTree::number_of_columns_in_use() const;
+  
+  
 };
   
 typedef std::vector<DecisionTree> DecisionTrees;
@@ -57,4 +59,3 @@ typedef std::vector<DecisionTree> DecisionTrees;
 
 
 #endif	/* DECISIONTREE_H */
-
