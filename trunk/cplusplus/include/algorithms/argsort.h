@@ -34,13 +34,14 @@ public:
 };
 
 
-template <typename T> 
+
 
 /**
  * Performs an argsort
  * @param values A container of values
  * @return The indices that sort the elements of "values" in ascending order
  */
+template <typename T> 
 Ints argsort(const T &values) {
   Ints indices_(values.size());
   for( int i = 0; i < values.size(); ++i ) indices_[i] = i;
@@ -49,6 +50,15 @@ Ints argsort(const T &values) {
   return indices_;
 }
 
+
+template<class InputIterator, class Comparer>
+Ints argsort(InputIterator first, InputIterator last) {
+  unsigned int size = std::distance(first, last);
+  Ints indices(size);
+  Compare<InputIterator> compare(first);
+  std::sort(indices.begin(),indices.end(), compare);  
+  return indices;
+}
 
 template<typename T>
 class ComparePtr {

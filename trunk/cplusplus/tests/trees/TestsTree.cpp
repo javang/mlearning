@@ -5,25 +5,6 @@
 #include <iostream>
 
 
-
-void my_name2(TreeNodePtr node) {
-  std::cout << "===> My name: " << node->get_name() << std::endl;
-  TreeNodePtr x(new TreeNode("x"));
-  x->add_child(node);
-  std::cout << "x children " << x->get_number_of_children() << std::endl;
-}
-
-// Pass by reference because they are not modified
-void print_ref_counts2(int step, const TreeNodePtrs &nodes) {
-  std::cout << "/******* STEP  "<< step << " ********************/" << std::endl;
-  TreeNodePtrs::const_iterator it = nodes.begin();
-  for(it = nodes.begin(); it != nodes.end(); ++it) {
-    std::cout << "name: " << (*it)->get_name()
-              << " || ref count " << (*it).use_count() << std::endl;
-  }
-  std::cout << "/***************************/" << std::endl;
-}
-
 Ints get_ref_counts(const TreeNodePtrs &nodes) {
   Ints counts;
   TreeNodePtrs::const_iterator it = nodes.begin();
@@ -41,6 +22,17 @@ TEST(TestTree, NodeParent) {
   EXPECT_TRUE(root->get_first_child() == node);
   EXPECT_TRUE(node->get_parent() == root.get());
 }
+
+TEST(TestTree, TestSibling) {
+  TreeNodePtr root(new TreeNode());
+  TreeNodePtr x(new TreeNode());
+  TreeNodePtr y(new TreeNode());
+  root->add_child(x);
+  root->add_child(y);
+  EXPECT_EQ(x->get_parent(), y->get_parent());
+  EXPECT_EQ(x->get_next_sibling(), y);
+}
+
 
 TEST(TestTreeFixture, TestReferenceCounting) {
   TreeNodePtr zero(new TreeNode("zero"));

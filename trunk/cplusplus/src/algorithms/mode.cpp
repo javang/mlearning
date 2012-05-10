@@ -7,10 +7,18 @@ typedef std::unordered_map<int, int> Hash;
 IntPair mode(const Ints &values) {
   Hash::iterator it;
   Hash hash;
-  for (int i = 0; i < values.size(); i++) {
-    it = hash.find(values[i]);
+//  for (int i = 0; i < values.size(); i++) {
+//    it = hash.find(values[i]);
+//    if(it == hash.end()) {
+//      hash.insert( std::make_pair(values[i], 1));
+//    } else {
+//      it->second += 1;
+//    }
+//  }
+  for (auto value: values) {
+    it = hash.find(value);
     if(it == hash.end()) {
-      hash.insert( std::make_pair(values[i], 1));
+      hash.insert( std::make_pair(value, 1));
     } else {
       it->second += 1;
     }

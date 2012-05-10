@@ -12,6 +12,9 @@
 #include "trees/DecisionNode.h"
 
 class DecisionTree: public Tree {
+private:
+     unsigned int get_prediction(const DecisionNodePtr &node, 
+                            const VectorXd &data_point) const;
 protected:
         InformationMeasure information_measure_;
         Bools columns_in_use_;
@@ -48,9 +51,17 @@ public:
     return information_measure_;
   }
 
-  unsigned int DecisionTree::number_of_columns_in_use() const;
+  unsigned int number_of_columns_in_use() const;
   
+
+  void get_tree(DecisionNodePtr node, const MatrixXd &data, 
+                        const VectorXi & classes, const Ints &rows_to_use=Ints());
   
+ unsigned int number_of_columns_in_use() const;
+  
+  std::tuple<double, double, int> get_best_gain(const MatrixXd &data, 
+                              const VectorXi &classes,
+                              const Ints &indices_to_use);
 };
   
 typedef std::vector<DecisionTree> DecisionTrees;

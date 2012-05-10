@@ -59,7 +59,7 @@ public:
   }
   void set_parent(TreeNode *t) {
     if(parent_ != nullptr) {
-      throw WrongParent();
+      throw WrongParent("Only one parent per node is allowed");
     }
     parent_ = t;
   }

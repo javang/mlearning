@@ -19,6 +19,7 @@ enum ThresholdType {
   LOWER, HIGHER
 };
 
+
 enum VariableType {
   CATEGORICAL, CONTINUOUS
 };

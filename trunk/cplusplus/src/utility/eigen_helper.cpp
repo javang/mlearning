@@ -1,6 +1,7 @@
 
 #include "utility/eigen_helper.h"
 #include "utility/errors.h"
+#include "utility/definitions.h"
 #include <iostream>
 
 
@@ -17,3 +18,4 @@ MatrixXd divide_colwise(const MatrixXd &a, const MatrixXd &x) {
   }
   return result;
 }
+

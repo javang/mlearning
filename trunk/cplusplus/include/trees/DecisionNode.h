@@ -50,7 +50,7 @@ public:
   int get_class() const {
     return class_;
   }
-  void get_class(unsigned int t) {
+  void set_class(unsigned int t) {
     class_ = t;
   }
 
