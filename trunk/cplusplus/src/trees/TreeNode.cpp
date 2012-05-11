@@ -51,6 +51,8 @@ unsigned int TreeNode::get_number_of_children() const {
   return n;
 }
 
-
+bool TreeNode::is_leaf() const {
+ return first_child_ == 0; 
+}
 
 

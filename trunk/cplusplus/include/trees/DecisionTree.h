@@ -10,15 +10,19 @@
 
 #include "trees/Tree.h"
 #include "trees/DecisionNode.h"
+#include "trees/information_gain.h"
+#include "utility/definitions.h"
+
+#include <Eigen/Dense>
 
 class DecisionTree: public Tree {
 private:
-     unsigned int get_prediction(const DecisionNodePtr &node, 
-                            const VectorXd &data_point) const;
+     unsigned int get_prediction(DecisionNode *node, 
+                                 const VectorXd &data_point) const;
 protected:
         InformationMeasure information_measure_;
         Bools columns_in_use_;
-        Bools is_categorical_;
+        VariableTypes variable_types_;
         DecisionNodePtr root_;
 public:
 
@@ -27,13 +31,12 @@ public:
    * @param data Matrix with as many rows as data points an as many colums as
    *        features
    * @param classes The classes of each of the data points
-   * @param is_categorical The type of features. Continuous or categorical
+   * @param variable_types_ The type of features. Continuous or categorical
    */
   void train(const MatrixXd &data, const VectorXi &classes,
-              Bools is_categorical);
+              VariableTypes variable_types);
   
   VectorXi predict(const MatrixXd &data) const;
-
   
     /**
    * Sets the information measure used for classification
@@ -54,10 +57,10 @@ public:
   unsigned int number_of_columns_in_use() const;
   
 
-  void get_tree(DecisionNodePtr node, const MatrixXd &data, 
-                        const VectorXi & classes, const Ints &rows_to_use=Ints());
-  
- unsigned int number_of_columns_in_use() const;
+  void get_tree(DecisionNodePtr node,
+                const MatrixXd &data, 
+                const VectorXi & classes,
+                const Ints &rows_to_use=Ints());
   
   std::tuple<double, double, int> get_best_gain(const MatrixXd &data, 
                               const VectorXi &classes,
@@ -65,6 +68,8 @@ public:
 };
   
 typedef std::vector<DecisionTree> DecisionTrees;
+typedef std::shared_ptr<DecisionTree> DecisionTreePtr;
+typedef std::vector<DecisionTreePtr> DecisionTreePtrs;
 
 
 

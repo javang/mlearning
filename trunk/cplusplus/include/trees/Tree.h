@@ -5,19 +5,27 @@
 #include "trees/TreeNode.h"
 
 class Tree {
-
+private: 
+  // Disable copy and assignment
+  Tree operator=(Tree &t);
+  Tree (Tree &t);
+  
 protected:
   TreeNodePtr root_;
 
 public:
   Tree() {
-    root_ = TreeNodePtr();
+    set_root(TreeNodePtr());
   }
 
   Tree(TreeNodePtr root) {
-    root_ = root ;
+    set_root(root);
   }
 
+  void set_root(TreeNodePtr root) {
+    root_ = root ;
+  }
+  
   void print_tree() const {
     print_subtree(root_);
   }
@@ -28,9 +36,12 @@ public:
    */
   void print_subtree(TreeNodePtr root) const;
 
+  virtual ~Tree() {};
 };
 
 typedef std::vector<Tree> Trees;
+typedef std::shared_ptr<Tree> TreePtr;
+typedef std::vector<TreePtr> TreePtrs;
 
 #endif
 

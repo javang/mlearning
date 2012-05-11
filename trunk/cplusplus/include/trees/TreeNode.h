@@ -3,19 +3,23 @@
 #define TREENODE_H
 
 #include "utility/errors.h"
-//#include <boost/shared_ptr.hpp>
 #include <vector>
 #include <string>
 #include <iostream>
 #include <memory>
 
 class TreeNode;
-//typedef boost::shared_ptr<TreeNode> TreeNodePtr;
 typedef std::shared_ptr<TreeNode> TreeNodePtr;
 typedef std::vector<TreeNodePtr> TreeNodePtrs;
 
+
 class TreeNode {
 
+private:
+  void init();
+  TreeNode operator=(TreeNode T);
+  TreeNode(TreeNode &T);
+  
 protected:
   std::string name_;
   // TreeNodePtr applies because the parent owns the children. They must be
@@ -25,6 +29,7 @@ protected:
   // A node does not share its parent. No TreeNodePtr required. Using it is an mistake
   TreeNode *parent_;
 
+  
 public:
   TreeNode() {
     init();
@@ -37,8 +42,6 @@ public:
   };
 
   TreeNode(TreeNode *parent, TreeNodePtr first_child, TreeNodePtr next_sibling);
-
-  void init();
 
   TreeNodePtr get_first_child() const {
     return first_child_;
@@ -78,8 +81,8 @@ public:
 
   unsigned int get_number_of_children() const;
 
-  ~TreeNode() {
-    std::cout << " I am dying: " << name_ << std::endl;
+  virtual ~TreeNode() {
+    // std::cout << " I am dying: " << name_ << std::endl;
   }
 
   void show() const {
@@ -90,6 +93,7 @@ public:
     // TODO
   }
   
+  bool is_leaf() const;
 };
 
 #endif

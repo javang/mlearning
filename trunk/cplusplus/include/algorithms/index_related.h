@@ -37,10 +37,8 @@ find_all_if(InputIterator first, InputIterator last, Predicate pred) {
  * @param last Second iterator
  * @param pred predicate
  * Example: To get the indices of a vector where the value is 3:
- *   std::binder2nd < std::equal_to<int> > CompareEqualTo3(std::equal_to<int>(), 3);
-     std::vector<int> indices = get_distances_if(v.begin(),
- *                                               v.end(),
- *                                               CompareEqualTo3 );
+     std::vector<int> indices = get_distances_if(v.begin(), v.end(),
+ *                                    std::bind2nd(std::equal_to<int>(),3);
  */
 template<class InputIterator , class Predicate>
 Ints get_distances_if(InputIterator first, InputIterator last, Predicate pred) {

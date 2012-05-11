@@ -8,20 +8,19 @@
 #include <cmath>
 
 GainPair information_gain(const VectorXd &values, const VectorXi &classes, 
-                        const VariableType &is_categorical,
-                        const InformationMeasure &measure) {
+                        VariableType vtype, InformationMeasure measure) {
   double gain = 0;
   double threshold = 0;
   GainPair gain_pair;
   if(measure == GINI) {
-    if(is_categorical) {
+    if(vtype == CATEGORICAL) {
       gain = nominal_gini_gain(values.cast<int>(), classes);
       gain_pair = std::make_pair(gain,0);
     } else {
       gain_pair = continuous_gini_gain(values, classes);
     }    
   } else if( measure == ENTROPY) {
-    if(is_categorical) {
+    if(vtype == CATEGORICAL) {
       gain = nominal_entropy_gain(values.cast<int>(), classes);
       gain_pair = std::make_pair(gain,0);
     } else {

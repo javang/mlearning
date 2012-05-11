@@ -6,8 +6,9 @@
  */
 
 #include "gtest/gtest.h"
-#include <iostream>
 #include "utility/eigen_helper.h"
+#include "utility/definitions.h"
+#include <iostream>
 #include <limits>
 
 TEST(TestEigenHelper, TestDivideColwise) {
@@ -32,21 +33,26 @@ TEST(TestEigenHelper, TestDivideColwise) {
 
 
 TEST(TestEigenHelper, TestSelectColumns) {
-  MatrixXi v(4,5);
+  unsigned int rows = 4;
+  unsigned int cls = 5;
+  MatrixXi v(rows, cls);
   v << 1, 2, 3, 4, 5,
        6, 7, 8, 9, 10,
        11, 12, 13, 14, 15,
        16, 17, 18, 19, 20;
   std::vector<int> cols = {0,1,4};
-  MatrixXi z = select_columns<int, std::vector<int> >(v, cols);
+  MatrixXi z = select_columns<int, Ints >(v, cols);
   EXPECT_EQ(v.col(0), z.col(0));
   EXPECT_EQ(v.col(1), z.col(1));
   EXPECT_EQ(v.col(4), z.col(2));
 
-  MatrixXd q = v.cats<double>() / 2;
-  std::vector<int> more_cols = {1,0,2};
-  MatrixXi t = select_columns<double, std::vector<int> >(q, more_cols);
-  EXPECT_DOUBLE_EQ(q.col(1), t.col(0));
-  EXPECT_DOUBLE_EQ(q.col(0), t.col(1));
-  EXPECT_DOUBLE_EQ(q.col(2), t.col(2));
+  MatrixXd q = v.cast<double>() / 2;
+  Ints more_cols = {1,0,2};
+  MatrixXd t = select_columns<double, Ints >(q, more_cols);
+  for(unsigned int i = 0; i < rows; i++) {
+    EXPECT_DOUBLE_EQ(q(i, 1), t(i, 0));
+    EXPECT_DOUBLE_EQ(q(i, 0), t(i, 1));
+    EXPECT_DOUBLE_EQ(q(i, 2), t(i, 2));
+  }
+
 }

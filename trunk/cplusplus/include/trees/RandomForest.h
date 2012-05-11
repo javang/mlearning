@@ -17,7 +17,7 @@
 class RandomForest {
 
 protected:
-  DecisionTrees trees_;
+  DecisionTreePtrs trees_;
   InformationMeasure information_measure_;
   unsigned int n_trees_;
 
@@ -69,7 +69,7 @@ public:
   /**
    * @return The trees forming the forest
    */
-  DecisionTrees get_trees() const {
+  DecisionTreePtrs get_trees() const {
     return trees_;
   }
 

@@ -39,7 +39,6 @@ Matrix<ContentType, Dynamic, Dynamic> select_columns(
   
   for(unsigned int i = 0; i < rows; i++) {
     for(unsigned int j = 0, col = 0; j < n_indices; ++j, ++col) {
-      std::cout << "j " << j << " col " << col << std::endl;
       result(i,col) = m(i, indices[j]);
     }
   }

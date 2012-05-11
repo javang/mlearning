@@ -12,8 +12,7 @@
 enum InformationMeasure {
   GINI, ENTROPY
 };
-
-std::vector<InformationMeasure> InformationMeasures;
+//std::vector<InformationMeasure> InformationMeasures;
 
 enum ThresholdType {
   LOWER, HIGHER
@@ -23,9 +22,8 @@ enum ThresholdType {
 enum VariableType {
   CATEGORICAL, CONTINUOUS
 };
-std::vector<VariableType> VariableTypes;
 
-
+typedef std::vector<VariableType> VariableTypes;
 
 typedef std::pair<double, double> GainPair; // (gain, threshold)
 
@@ -37,15 +35,14 @@ typedef std::pair<double, double> GainPair; // (gain, threshold)
  *             values
  * @param [in] values The vector of values used to compute the information
  * gain
- * @param [in] is_categorical Identifies if values contains a categorical
+ * @param [in] v_type Identifies if values contains a categorical
  * variable
  * @param [in] measure The information measure used. GINI or ENTROPY
  * \return The function returns a pair (gain, threshold)
  
  */
 GainPair information_gain(const VectorXd &values, const VectorXi &classes,
-        const VariableType &is_categorical,
-        const InformationMeasure &measure);
+        VariableType v_type, InformationMeasure measure);
 
 
 //! Computes the Gini information gain for a set of values given their 
@@ -123,9 +120,6 @@ double gini(const VectorXd &values);
  * @return the value of the entropy
  */
 double entropy(const VectorXd &values);
-
-
-
 
 #endif
 

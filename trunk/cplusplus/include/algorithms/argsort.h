@@ -11,16 +11,16 @@
 #include <algorithm>
 #include "utility/definitions.h"
 
-template<typename T>
-class Compare {
-  typename T::const_iterator it_;
+template<class InputIterator>
+class CompareWithIterators {
+  const InputIterator it_;
 public:
 
   /**
    * Prepares the class to compare
    * @param input The container whose elements are going to be compared
    */
-  Compare(const T &input ): it_(input.begin()) {}
+  CompareWithIterators(const InputIterator &it ): it_(it) {}
 
   /**
    * Compares the elements i and j in the container used as input
@@ -33,41 +33,14 @@ public:
   }
 };
 
-
-
-
-/**
- * Performs an argsort
- * @param values A container of values
- * @return The indices that sort the elements of "values" in ascending order
- */
-template <typename T> 
-Ints argsort(const T &values) {
-  Ints indices_(values.size());
-  for( int i = 0; i < values.size(); ++i ) indices_[i] = i;
-  Compare<T> compare(values);
-  std::sort(indices_.begin(),indices_.end(), compare);  
-  return indices_;
-}
-
-
-template<class InputIterator, class Comparer>
-Ints argsort(InputIterator first, InputIterator last) {
-  unsigned int size = std::distance(first, last);
-  Ints indices(size);
-  Compare<InputIterator> compare(first);
-  std::sort(indices.begin(),indices.end(), compare);  
-  return indices;
-}
-
 template<typename T>
-class ComparePtr {
+class CompareWithPointers {
   const T *it_;
 public:
   /**
    * @param a pointer to the first element of the vector to sort
    */
-  ComparePtr(const T *input): it_(input) {}
+  CompareWithPointers(const T *input): it_(input) {}
 
   /**
    * Compares the elements i and j in the container used as input
@@ -82,6 +55,24 @@ public:
 };
 
 
+
+/**
+ * Performs an argsort for the elements between the iterator
+ * @param first Iterator to the first element 
+ * @param last Iterator to the last element 
+ * @return The indices that sort the elements of "values" in ascending order
+ */
+template<class InputIterator>
+Ints argsort(InputIterator first, InputIterator last) {
+  unsigned int size = std::distance(first, last);
+  Ints indices(size);
+  CompareWithIterators<InputIterator> compare(first);
+  std::sort(indices.begin(),indices.end(), compare);  
+  return indices;
+}
+
+
+
 /**
  * Performs an argsort
  * @param values A pointer to a vector of values
@@ -92,7 +83,7 @@ template <typename T>
 Ints argsort(const T *values, unsigned int size) {
   Ints indices_(size);
   for( int i = 0; i < size; ++i ) indices_[i] = i;
-  ComparePtr<T> compare(values);
+  CompareWithPointers<T> compare(values);
   std::sort(indices_.begin(),indices_.end(), compare);  
   return indices_;
 }

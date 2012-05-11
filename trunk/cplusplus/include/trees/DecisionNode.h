@@ -54,7 +54,7 @@ public:
     class_ = t;
   }
 
-  bool matches_value(double value, bool is_categorical);
+  bool matches_value(double value, VariableType vtype);
 
 };
 

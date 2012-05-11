@@ -15,12 +15,11 @@ void RandomForest::train(const MatrixXd &data,
             VariableTypes is_categorical) {
   Ints choices = get_random_sample(data.rows());
   for (unsigned int i = 0; i < n_trees_; ++i) {
-    DecisionTree T;
-    T.set_information_measure(information_measure_);
+    DecisionTreePtr ptr(new DecisionTree());
+    ptr->set_information_measure(information_measure_);
     Ints choices = get_random_sample(data.rows());
-    // TODO: Get a way of passing the selected sample without copying it
-    T.train(data, classes, is_categorical);
-    trees_.push_back(T);
+    ptr->train(data, classes, is_categorical);
+    trees_.push_back(ptr);
   }
 }
 
@@ -30,7 +29,7 @@ VectorXi RandomForest::predict(const MatrixXd &data) {
     throw std::length_error("There are no trees in the forest");
   }
   for (unsigned int i = 0; i < trees_.size(); ++i) {
-    VectorXi p = trees_[i].predict(data);
+    VectorXi p = trees_[i]->predict(data);
     predictions.col(i) = p;
   }
   VectorXi classes(data.rows());
