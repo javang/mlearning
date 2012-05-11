@@ -1,12 +1,13 @@
 
 #include "gtest/gtest.h"
+#include "utility/eigen_helper.h"
+#include "utility/definitions.h"
+
 #include "algorithms/argsort.h"
 #include "algorithms/mode.h"
 #include "algorithms/sample.h"
-
-#include "utility/eigen_helper.h"
-#include "utility/definitions.h"
 #include "algorithms/index_related.h"
+
 #include <vector>
 #include <ctime>
 #include <cstdlib>
