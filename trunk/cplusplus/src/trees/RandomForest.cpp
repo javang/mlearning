@@ -25,7 +25,7 @@ void RandomForest::train(const MatrixXd &data,
 
 VectorXi RandomForest::predict(const MatrixXd &data) {
   MatrixXi predictions(data.rows(), n_trees_);
-  if(trees_.size() == 0) {
+  if(trees_.empty()) { // empty() is more general than size() == 0
     throw std::length_error("There are no trees in the forest");
   }
   for (unsigned int i = 0; i < trees_.size(); ++i) {

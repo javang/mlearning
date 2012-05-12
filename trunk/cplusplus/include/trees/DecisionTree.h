@@ -26,6 +26,9 @@ protected:
         DecisionNodePtr root_;
 public:
 
+  DecisionTree (): information_measure_(GINI) {};
+
+  
   /**
    * Train the tree. 
    * @param data Matrix with as many rows as data points an as many colums as

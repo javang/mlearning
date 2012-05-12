@@ -3,13 +3,16 @@
 #include "trees/DecisionNode.h"
 #include "algorithms/mode.h"
 #include "utility/definitions.h"
+#include "utility/print_utils.h"
 #include "algorithms/index_related.h"
+
 #include <algorithm>
 #include <functional>
 #include "boost/bind.hpp"
 
 void DecisionTree::train(const MatrixXd &data, const VectorXi &classes,
               VariableTypes variable_types) {
+  columns_in_use_.resize(data.cols());
   std::fill(columns_in_use_.begin(), columns_in_use_.end(), true);
   variable_types_ = variable_types;
   root_ = DecisionNodePtr(new DecisionNode());
@@ -29,6 +32,10 @@ void DecisionTree::get_tree(DecisionNodePtr node,
                             const VectorXi & classes, 
                             const Ints &rows_to_use) {
   IntsSet unique_classes(classes.data(), classes.data()+classes.size());
+  std::cout << "columns_in_use ";
+  print(columns_in_use_.begin(), columns_in_use_.end(), std::cout); 
+
+//  assert(!columns_in_use_.empty() && "The vector of columns in use is empty");
   if(unique_classes.size() == 1 || number_of_columns_in_use() == 1) {
     IntPair mode_pair = mode(classes.data(), classes.size());
     node->set_class(mode_pair.first);
@@ -41,12 +48,18 @@ void DecisionTree::get_tree(DecisionNodePtr node,
     node->set_column_for_next_split(column);
     columns_in_use_[column] = false;
     Ints new_rows_to_use;
-    if(variable_types_[column]) {
+    
+    std::cout << "variable_types ";
+    print(variable_types_.begin(), variable_types_.end(), std::cout);
+      
+    if(variable_types_[column] == CATEGORICAL) {
       // unique values present in the column
       IntsSet vals;
       for(unsigned int i = 0; i < data.rows(); i++) {
         vals.insert(data.cast<int>()(i,column));
       }
+//      std::cout << "values for column " << column
+//              << print_all(vals.begin(), vals.end()) << std::endl;
       for(auto value: vals) {
         DecisionNodePtr child(new DecisionNode());
         child->set_feature(column);
@@ -54,8 +67,12 @@ void DecisionTree::get_tree(DecisionNodePtr node,
         node->add_child(child);
         // new_rows_to_use == > all the indices of the elements in 
         // data.col(column) that are equal to the value
-        new_rows_to_use = get_distances_if(data.col(column).data(), data.col(column).data() + data.rows(),
+        new_rows_to_use = get_distances_if(data.col(column).data(), 
+                                           data.col(column).data() + data.rows(),
                                     std::bind2nd(std::equal_to<int>(), value)); ///////////////// Problemas casi fijo. data es doubles y quiero avanzar con punteros sobre ints
+        std::cout << "new_rows_to_use ";
+        print(new_rows_to_use.begin(), new_rows_to_use.end(), std::cout);
+        std::cout << "Vamos a por el hijo para " << value << std::endl;
         get_tree(child, data, classes, new_rows_to_use);
       }
     // continuous feature  
@@ -95,7 +112,6 @@ unsigned int DecisionTree::get_prediction(DecisionNode *node,
   } else {
     unsigned int col = node->get_column_for_next_split();
     TreeNodePtr child = node->get_first_child();
-    unsigned int child_i = 0;
     while(child != 0) {
       // Recover a pointer to DecisionNode. It can be done because I know that
       // children are indeed DecisionNodes and the class TreeNode is polymorphic.
@@ -117,6 +133,8 @@ std::tuple<double, double, int>
   double best_gain = 0;
   double threshold = 0;
   double best_feature = 0;
+  std::cout << "best gain columns in use ";
+  print(columns_in_use_.begin(),columns_in_use_.end(), std::cout);
   for(int i = 0; i < columns_in_use_.size(); i++) {
     if(columns_in_use_[i]) {
       GainPair g = information_gain(data.col(i), classes, variable_types_[i],

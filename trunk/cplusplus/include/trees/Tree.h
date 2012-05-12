@@ -6,9 +6,10 @@
 
 class Tree {
 private: 
-  // Disable copy and assignment
-  Tree operator=(Tree &t);
-  Tree (Tree &t);
+  // Disable copy and assignment. Tree can't be stored in a container, but
+  // smart pointers to Tree can.
+  Tree& operator=(const Tree &t);
+  Tree (const Tree &t);
   
 protected:
   TreeNodePtr root_;

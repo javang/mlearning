@@ -26,6 +26,8 @@ GainPair information_gain(const VectorXd &values, const VectorXi &classes,
     } else {
       gain_pair = continuous_entropy_gain(values , classes);
     }
+  } else {
+    throw ValueError("The information measure must be either ENTROPY or GINI");
   }
   return gain_pair;
 }
