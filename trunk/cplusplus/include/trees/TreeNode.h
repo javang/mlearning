@@ -9,8 +9,8 @@
 #include <memory>
 
 class TreeNode;
-typedef std::shared_ptr<TreeNode> TreeNodePtr;
-typedef std::vector<TreeNodePtr> TreeNodePtrs;
+typedef std::shared_ptr< TreeNode > TreeNodePtr;
+typedef std::vector< TreeNodePtr > TreeNodePtrs;
 
 
 class TreeNode {

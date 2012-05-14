@@ -1,7 +1,7 @@
+#include "gtest/gtest.h"
 #include "trees/TreeNode.h"
 #include "trees/Tree.h"
 #include "utility/definitions.h"
-#include "gtest/gtest.h"
 #include <iostream>
 
 
