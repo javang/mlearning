@@ -1,0 +1,11 @@
+import os
+
+Import('env','dirs')
+objects = []
+for d in dirs:
+    objects.extend( SConscript("%s/SConscript" % d, exports='env'))
+tests_exec = env.Program('tests_exec', ["main.cpp"] + objects, LIBS=['mlearning', "gtest"])
+Return("tests_exec")
+
+
+
