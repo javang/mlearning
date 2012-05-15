@@ -4,97 +4,70 @@ import glob
 from colorizer import colorizer
 
 
-def get_files(directory, ext, recursive=True, level=0):
-    """
-        Get all the files with an given extension from a directory 
-        @param directory
-        @param ext extension of the files
-        @param recursive If true, the search is recursive
-        @paran level Maximum level of recursion (TODO)   
-    """
-    cwd = os.getcwd()
-    contents = os.listdir(directory)
-
-    os.chdir( directory )
-    files = []
-    for c in contents:
-        if os.path.isdir(c) and recursive:
-            files.extend(get_files(c,ext))
-        elif os.path.isfile(c):
-            files.append(c) 
-    os.chdir( cwd )
-    files = [os.path.join(directory,f) for f in files]
-    return files
-
-
 def check_headers(conf, files):
     for d in files:
         if not conf.CheckCXXHeader(d):
             print "Could not find the required header",d
+            quit()
+
 
 #################################
 # Options file
 #################################
 
-variables = Variables('scons_config.py')
-variables.Add("build_dir", "directory to build the library", default="build")
-variables.Add(PathVariable("eigen_dir", "directory containing the files of the Eigen library",""))
-variables.Add(PathVariable("google_test_dir", "directory containg the google_test " \
-                        "include and lib directories",""))
+# directories in the project
+dirs = ["utility", "algorithms", "trees"]
 
 
 #################################
-#
+# Config
 #################################
 home=os.environ["HOME"]
 path=os.environ["PATH"]
 term = os.environ["TERM"]
 
+variables = Variables('scons_config.py')
+variables.Add("build_dir", "directory to build the library", default="build")
+variables.Add("install_dir", "directory to install the library", default="lib")
+variables.Add(PathVariable("eigen_dir", "directory containing the files of the Eigen library",""))
+variables.Add(PathVariable("google_test_dir", "directory containg the google_test " \
+                        "include and lib directories",""))
+
 env = Environment(variables=variables)
 env['ENV'] = {'PATH' : path, 'TERM' : term, 'HOME' : home}
-env['CPPPATH'] = ["include",
-                  "/usr/include",
-                  "$eigen_dir",
-                  ] # search for includes
-env['CXXFLAGS'] = ["-std=c++0x"] 
-
+env['CPPPATH'] = ["#include", "/usr/include"] # the symbol "#" means the directory where SConstruct is
+eigen_dir = env['google_test_dir']
+env['CPPPATH'].append(eigen_dir)
+env['CXXFLAGS'] = ["-std=c++0x", "-fPIC"] 
+eigen_dir = env['eigen_dir']
+required_headers = ["boost/shared_ptr.hpp", eigen_dir+"/Eigen/Dense", ]
+conf = Configure(env)
+check_headers(conf, required_headers)
 # for nice compiling colors
 col = colorizer()
 col.colorize(env)
 
-
-# preparation of repositories
-env.Repository('')
-env.Repository('tests')
-
-# configure
-conf = Configure(env)
-eigen_dir = env['eigen_dir']
-required_headers = ["boost/shared_ptr.hpp", eigen_dir+"/Eigen/Dense", ]
-check_headers(conf, required_headers)
+build_dir = env['build_dir']
+install_dir = env['install_dir']
 
 
-# Build dynamic library
-cwd = os.getcwd()
-src = os.path.join(cwd,"src")
-sources = get_files(src, "*.cpp")
-libmlearning = env.SharedLibrary('mlearning', sources)
+# Build and install dynamic library 
+VariantDir(build_dir, "src", duplicate=0)
+mlearning = SConscript("%s/SConscript" % build_dir, exports=['env','dirs'])
+VariantDir(install_dir, ".", duplicate=0)
+Install(install_dir, mlearning)
 
-# Install lib
-env.Install('$build_dir/lib', libmlearning)
-
-# install includes
-
-
-# build the tests 
+# Same for program of tests
 google_test_dir = env['google_test_dir']
 env['CPPPATH'].append([google_test_dir + "/include"])
-env['LIBPATH'] = [google_test_dir + "/lib",'.']
-print env["LIBPATH"]
-src = os.path.join(cwd,"tests")
-test_sources = get_files(src, "*.cpp")
-test_program = env.Program('test', test_sources, LIBS=['mlearning', "gtest"])
-env.Install('$build_dir/tests', test_program)
+build_path = os.path.abspath(build_dir)
+env['LIBPATH'] = [google_test_dir + "/lib", build_path]
 
+build_dir = env['build_dir'] + "/tests"
+VariantDir(build_dir, "tests", duplicate=False)
+tests_exec = SConscript("%s/SConscript" % build_dir, exports=['env','dirs'])
+VariantDir(install_dir, ".", duplicate=0)
+Install(install_dir, tests_exec)
 
+#env.Alias('install', install_dir)
 
