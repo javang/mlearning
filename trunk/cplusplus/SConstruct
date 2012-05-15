@@ -32,6 +32,7 @@ variables.Add("install_dir", "directory to install the library", default="lib")
 variables.Add(PathVariable("eigen_dir", "directory containing the files of the Eigen library",""))
 variables.Add(PathVariable("google_test_dir", "directory containg the google_test " \
                         "include and lib directories",""))
+variables.Add("compiler", "The compiler to use", default="g++")
 
 env = Environment(variables=variables)
 env['ENV'] = {'PATH' : path, 'TERM' : term, 'HOME' : home}
@@ -39,10 +40,11 @@ env['CPPPATH'] = ["#include", "/usr/include"] # the symbol "#" means the directo
 eigen_dir = env['google_test_dir']
 env['CPPPATH'].append(eigen_dir)
 env['CXXFLAGS'] = ["-std=c++0x", "-fPIC"] 
+env["CXX"] = env["compiler"] 
 eigen_dir = env['eigen_dir']
-required_headers = ["boost/shared_ptr.hpp", eigen_dir+"/Eigen/Dense", ]
+required_headers = [eigen_dir+"/Eigen/Dense" ]
 conf = Configure(env)
-check_headers(conf, required_headers)
+# check_headers(conf, required_headers)
 # for nice compiling colors
 col = colorizer()
 col.colorize(env)
