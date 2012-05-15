@@ -3,7 +3,6 @@ import os
 Import('env', 'dirs')
 
 objects = []
-#dirs = ["utility", "algorithms", "trees"]
 for d in dirs:
     objects.extend( SConscript("%s/SConscript" % d, exports='env'))
 libmlearning = env.SharedLibrary('mlearning', objects)
