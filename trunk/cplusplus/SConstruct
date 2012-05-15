@@ -32,21 +32,31 @@ def check_headers(conf, files):
         if not conf.CheckCXXHeader(d):
             print "Could not find the required header",d
 
+#################################
+# Options file
+#################################
+
+variables = Variables('scons_config.py')
+variables.Add("build_dir", "directory to build the library", default="build")
+variables.Add(PathVariable("eigen_dir", "directory containing the files of the Eigen library",""))
+variables.Add(PathVariable("google_test_dir", "directory containg the google_test " \
+                        "include and lib directories",""))
 
 
-
+#################################
+#
+#################################
 home=os.environ["HOME"]
 path=os.environ["PATH"]
 term = os.environ["TERM"]
 
-env = Environment()
+env = Environment(variables=variables)
 env['ENV'] = {'PATH' : path, 'TERM' : term, 'HOME' : home}
 env['CPPPATH'] = ["include",
                   "/usr/include",
-                  "/usr/include/eigen3",
+                  "$eigen_dir",
                   ] # search for includes
 env['CXXFLAGS'] = ["-std=c++0x"] 
-env['PREFIX'] = ["build"] 
 
 # for nice compiling colors
 col = colorizer()
@@ -57,13 +67,11 @@ col.colorize(env)
 env.Repository('')
 env.Repository('tests')
 
-
 # configure
 conf = Configure(env)
-required_headers = ["boost/shared_ptr.hpp", "eigen3/Eigen/Dense", ]
+eigen_dir = env['eigen_dir']
+required_headers = ["boost/shared_ptr.hpp", eigen_dir+"/Eigen/Dense", ]
 check_headers(conf, required_headers)
-
-
 
 
 # Build dynamic library
@@ -73,22 +81,20 @@ sources = get_files(src, "*.cpp")
 libmlearning = env.SharedLibrary('mlearning', sources)
 
 # Install lib
-env.Install('$PREFIX/lib', libmlearning)
+env.Install('$build_dir/lib', libmlearning)
 
 # install includes
 
 
-# build a program
-# env.Program('test', "test.cpp", LIBS=['mlearn'],LIBPATH="." )
-
-
 # build the tests 
-env['CPPPATH'].append(["/chime1/home/javi/gtest-1.6.0/include"])
-env['LIBPATH'] = ["/chime1/home/javi/gtest-1.6.0/lib",'.']
+google_test_dir = env['google_test_dir']
+env['CPPPATH'].append([google_test_dir + "/include"])
+env['LIBPATH'] = [google_test_dir + "/lib",'.']
 print env["LIBPATH"]
 src = os.path.join(cwd,"tests")
 test_sources = get_files(src, "*.cpp")
-env.Program('test', test_sources, LIBS=['mlearning', "gtest"])
+test_program = env.Program('test', test_sources, LIBS=['mlearning', "gtest"])
+env.Install('$build_dir/tests', test_program)
 
 
 
