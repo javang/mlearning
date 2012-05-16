@@ -45,7 +45,7 @@ classdef DecisionTree < Tree & handle
             else
                 [gain, column, threshold] = self.best_gain(X, Y);
                 node.column_for_next_split = column;
-                self.columns_in_use(column) = false;
+                self.columns_in_use(column) = false
                 
                 is_categorical = self.are_categorical(column);
                 if is_categorical
@@ -57,11 +57,12 @@ classdef DecisionTree < Tree & handle
                         child = DecisionNode;
                         child.set_feature(column, values(i));
                         child_tree = self.get_tree(child, Z, W);
+                        
                         node.add_child(child_tree);
                     end
                 else
                     h = [InfoGainThreshold.higher InfoGainThreshold.lower];
-                    for i = 1:2set_threshold_type
+                    for i = 1:2
                         [Z, W] = get_matrices_for_threshold( ...
                                         X, Y, column, threshold, h(i));
                         child = DecisionNode;
@@ -165,7 +166,7 @@ end
     % get the datapoints in matrices X and Y where the column "column"
     % in X has the value "value"
     function [Z, W] = get_matrices_for_value(X, Y, column, value)
-        indices = (X(:, column) == value);
+        indices = (X(:, column) == value)
         Z = X(indices, :);
         W = Y(indices, :);
     end

@@ -4,3 +4,7 @@ addpath '~/matlab/matlab_xunit/xunit/'
 
 Run like this example:
 runtests tests.trees 
+
+To run an specific test within a M-file:
+
+runtests tests.trees:test_trivial_decision_tree

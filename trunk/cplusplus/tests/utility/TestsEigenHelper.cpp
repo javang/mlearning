@@ -56,3 +56,27 @@ TEST(TestEigenHelper, TestSelectColumns) {
   }
 
 }
+
+TEST(TestEigenHelper, TestSelectRows) {
+  unsigned int rows = 4;
+  unsigned int cols = 5;
+  MatrixXi v(rows, cols);
+  v << 1, 2, 3, 4, 5,
+       6, 7, 8, 9, 10,
+       11, 12, 13, 14, 15,
+       16, 17, 18, 19, 20;
+  Ints myrows = {1,3};
+  MatrixXi z = select_rows<int, Ints >(v, myrows);
+  EXPECT_EQ(v.row(1), z.row(0));
+  EXPECT_EQ(v.row(3), z.row(1));
+
+  MatrixXd q = v.cast<double>() / 2;
+  Ints more_rows = {1,0,2};
+  MatrixXd t = select_rows<double, Ints >(q, more_rows);
+  for(unsigned int i = 0; i < cols; i++) {
+    EXPECT_DOUBLE_EQ(q(1, i), t(0, i));
+    EXPECT_DOUBLE_EQ(q(0, i), t(1, i));
+    EXPECT_DOUBLE_EQ(q(2, i), t(2, i));
+  }
+
+}

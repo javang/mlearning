@@ -17,11 +17,29 @@
 
 class DecisionTree: public Tree {
 private:
-     unsigned int get_prediction(DecisionNode *node, 
+  /**
+   * Returns the predictioin for a data_point recursing
+   * on the subtree of which *node* is the root
+   * @param node Node Root node of the subtree to explore
+   * @param data_point 
+   * @return The class for the data point
+   */  
+  unsigned int get_prediction(DecisionNode *node, 
                                  const VectorXd &data_point) const;
+
+   /**
+   * Builds the decision tree (recursively).
+   * @param node Node that is the root of the current tree
+   * @param data Data matrix with data points as rows and features in the columns
+   * @param classes Class for each of the data points
+   */
+  void get_tree(DecisionNodePtr node,
+                const MatrixXd &data, 
+                const VectorXi &classes);
+  
 protected:
         InformationMeasure information_measure_;
-        Bools columns_in_use_;
+        Bools columns_to_use_;
         VariableTypes variable_types_;
         DecisionNodePtr root_;
 public:
@@ -39,9 +57,14 @@ public:
   void train(const MatrixXd &data, const VectorXi &classes,
               VariableTypes variable_types);
   
+  /**
+   * Predict the class for each of the data points 
+   * @param data The matrix with one data point per row
+   * @return A vector with the class for each of the data points.
+   */
   VectorXi predict(const MatrixXd &data) const;
   
-    /**
+  /**
    * Sets the information measure used for classification
    * @param information_measure
    */
@@ -57,17 +80,29 @@ public:
     return information_measure_;
   }
 
+  /**
+   * 
+   * @return A vector of booleans showing if the feature/columns of the data
+   * are used to compute the information gain. It changes during building the
+   * decision tree
+   */
   unsigned int number_of_columns_in_use() const;
   
 
-  void get_tree(DecisionNodePtr node,
-                const MatrixXd &data, 
-                const VectorXi & classes,
-                const Ints &rows_to_use=Ints());
-  
-  std::tuple<double, double, int> get_best_gain(const MatrixXd &data, 
-                              const VectorXi &classes,
-                              const Ints &indices_to_use);
+  /**
+   * Obtains the information gain that could obtained for each column of the
+   * matrix 
+   * @param data Matrix with the data (one data point per row)
+   * @param classes Vector with the class for each data point
+   * @param rows_to_use The rows of the matrix data that are used to compute
+   * the gains. If this vector is empty, use all
+   * @return Returns the tuple of (gain, the column that has the best 
+   * information gain, the threshold for splitting continuous variables).
+   * The threshold is 0 if the variable contained in a column is categorical
+   */
+  std::tuple<double, unsigned int, double>
+                get_best_gain(const MatrixXd &data, 
+                              const VectorXi &classes);
 };
   
 typedef std::vector<DecisionTree> DecisionTrees;

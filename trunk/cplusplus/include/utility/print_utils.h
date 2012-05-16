@@ -12,7 +12,7 @@
 
 template<class InputIterator>
 void print(InputIterator first, InputIterator last, std::ostream &out) {
-  for(; first != last; ++first ) {
+  for(; first != last; first++ ) {
     out << *first << " ";
   }
   out << std::endl;

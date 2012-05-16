@@ -59,10 +59,10 @@ protected:
 
       golf_trivial_set.resize(5,5);
       golf_trivial_set << 0, 1, 1, 1, 0,
-                          1, 1, 0, 0, 1,
+                          1, 1, 0, 0, 0,
                           0, 2, 1, 1, 0,
-                          1, 1, 1, 1, 1,
-                          2, 0, 0, 1, 0;
+                          1, 1, 1, 1, 0,
+                          2, 0, 0, 1, 1;
 
     
       for(unsigned int i = 0; i < golf_training_set.cols()-1; i++)
@@ -102,13 +102,13 @@ TEST_F(DecisionTreeTest, TrivialSetOfInformationMeasure) {
 }
 
 TEST_F(DecisionTreeTest, TrivialCategoricalPrediction) {
+  tree_->set_information_measure(GINI);
   unsigned int rows = golf_trivial_set.rows();
   unsigned int cols = golf_trivial_set.cols();
-  MatrixXd training_set = golf_trivial_set.topLeftCorner(rows,cols-2);
+  MatrixXd training_set = golf_trivial_set.topLeftCorner(rows,cols-1);
   VectorXi classes = golf_trivial_set.col(cols-1).cast<int>();
   DecisionTree dtree;
   dtree.train(training_set, classes, golf_data_types);
-    
   VectorXi predictions = dtree.predict(training_set);
   std::cout << "predictions " << predictions << std::endl;
   // Should expect exactly what is in the sample

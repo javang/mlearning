@@ -37,10 +37,33 @@ Matrix<ContentType, Dynamic, Dynamic> select_columns(
   unsigned int n_indices = indices.size();
   Matrix<ContentType, Dynamic, Dynamic> result(rows, n_indices);
   
-  for(unsigned int i = 0; i < rows; i++) {
-    for(unsigned int j = 0, col = 0; j < n_indices; ++j, ++col) {
-      result(i,col) = m(i, indices[j]);
-    }
+  for (unsigned int i=0, col=0; i < n_indices; ++i, ++col) {
+    result.col(col) = m.col(indices[i]);
+  }
+  return result;
+}
+
+
+/**
+ * Selects columns from a matrix
+ * @param m Matrix
+ * @param indices The columns to select (the container can be anything that 
+ * supports the size() function and access to the elements with []
+ * @param ContentType The type stored in the matrix (int, double, etc)
+ * @return Returns a matrix containing only the rows selected
+ */
+template<class ContentType, typename ContainerType> 
+Matrix<ContentType, Dynamic, Dynamic> select_rows(
+                  const Matrix<ContentType, Dynamic, Dynamic> &m,
+                  const ContainerType &indices) {
+  if(indices.empty()) {
+    return m;
+  }
+  unsigned int cols = m.cols();
+  unsigned int n_indices = indices.size();
+  Matrix<ContentType, Dynamic, Dynamic> result(n_indices, cols);
+  for (unsigned int i=0, row=0; i < indices.size(); ++i, ++row) {
+    result.row(row) = m.row(indices[i]);
   }
   return result;
 }
