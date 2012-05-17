@@ -120,7 +120,6 @@ TEST_F(DecisionTreeTest, CategoricalPrediction) {
   MatrixXd test_set = golf_test_set.topLeftCorner(golf_test_set.rows(),
                                                   golf_test_set.cols()-1);
   VectorXi predictions = dtree.predict(test_set);
-  // Should expect exactly what is in the sample
   VectorXi expected = golf_test_set.col(cols-1).cast<int>();
   EXPECT_EQ(predictions, classes);
 }

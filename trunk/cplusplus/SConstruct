@@ -37,7 +37,7 @@ variables.Add("compiler", "The compiler to use", default="g++")
 env = Environment(variables=variables)
 env['ENV'] = {'PATH' : path, 'TERM' : term, 'HOME' : home}
 env['CPPPATH'] = ["#include", "/usr/include"] # the symbol "#" means the directory where SConstruct is
-eigen_dir = env['google_test_dir']
+eigen_dir = env['eigen_dir']
 env['CPPPATH'].append(eigen_dir)
 env['CXXFLAGS'] = ["-std=c++0x", "-fPIC"] 
 env["CXX"] = env["compiler"] 
@@ -48,6 +48,8 @@ conf = Configure(env)
 # for nice compiling colors
 col = colorizer()
 col.colorize(env)
+
+print "################3>", env['CPPPATH']
 
 build_dir = env['build_dir']
 install_dir = env['install_dir']
