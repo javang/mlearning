@@ -27,7 +27,10 @@ MatrixXd divide_colwise(const MatrixXd &a, const MatrixXd &x);
  * @param m A Eigen Matrix
  * @param indices The columns to select (the container can be anything that 
  * supports the size() function and access to the elements with []
- * @return 
+ * @return A matrix with the selected columns
+ * The template parameters are the the the type of the content of the matrix
+ * (int, float, double, etc) and the container that stores the indices,
+ * (std::vector, VectorXi, etc)
  */
 template<class ContentType, typename ContainerType> 
 Matrix<ContentType, Dynamic, Dynamic> select_columns(
