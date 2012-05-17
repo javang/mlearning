@@ -14,13 +14,11 @@ protected:
   unsigned int x;
   unsigned int y;
   MatrixXd golf_training_set;
-  MatrixXd golf_trivial_set;
+  MatrixXd golf_test_set;
   std::vector<VariableType> golf_data_types;
   
   virtual void SetUp() {
     tree_ = DecisionTreePtr(new DecisionTree());
-    
-
     golf_training_set.resize(28,5);
     // GOLF DATASET
     // 1st Column Outlook: sunny=0, overcast=1, rainy=2
@@ -57,8 +55,8 @@ protected:
                           1, 0, 1, 0, 1,
                           2, 1, 0, 1, 0 ;
 
-      golf_trivial_set.resize(5,5);
-      golf_trivial_set << 0, 1, 1, 1, 0,
+      golf_test_set.resize(5,5);
+      golf_test_set << 0, 1, 1, 1, 0,
                           1, 1, 0, 0, 0,
                           0, 2, 1, 1, 0,
                           1, 1, 1, 1, 0,
@@ -69,9 +67,7 @@ protected:
         golf_data_types.push_back(CATEGORICAL);
     
 }
-  
   virtual void TearDown() {};
-    
 };
 
 TEST_F(DecisionTreeTest, ChildrenWork) {
@@ -93,7 +89,6 @@ TEST_F(DecisionTreeTest, ChildrenWork) {
 
 
 TEST_F(DecisionTreeTest, TrivialSetOfInformationMeasure) {
-  
   EXPECT_EQ(tree_->get_information_measure(),GINI);
   tree_->set_information_measure(ENTROPY);
   EXPECT_EQ(tree_->get_information_measure(), ENTROPY);
@@ -103,15 +98,30 @@ TEST_F(DecisionTreeTest, TrivialSetOfInformationMeasure) {
 
 TEST_F(DecisionTreeTest, TrivialCategoricalPrediction) {
   tree_->set_information_measure(GINI);
-  unsigned int rows = golf_trivial_set.rows();
-  unsigned int cols = golf_trivial_set.cols();
-  MatrixXd training_set = golf_trivial_set.topLeftCorner(rows,cols-1);
-  VectorXi classes = golf_trivial_set.col(cols-1).cast<int>();
+  unsigned int rows = golf_test_set.rows();
+  unsigned int cols = golf_test_set.cols();
+  MatrixXd training_set = golf_test_set.topLeftCorner(rows,cols-1);
+  VectorXi classes = golf_test_set.col(cols-1).cast<int>();
   DecisionTree dtree;
   dtree.train(training_set, classes, golf_data_types);
   VectorXi predictions = dtree.predict(training_set);
-  std::cout << "predictions " << predictions << std::endl;
   // Should expect exactly what is in the sample
+  EXPECT_EQ(predictions, classes);
+}
+
+TEST_F(DecisionTreeTest, CategoricalPrediction) {
+  tree_->set_information_measure(GINI);
+  unsigned int rows = golf_training_set.rows();
+  unsigned int cols = golf_training_set.cols();
+  MatrixXd training_set = golf_training_set.topLeftCorner(rows,cols-1);
+  VectorXi classes = golf_training_set.col(cols-1).cast<int>();
+  DecisionTree dtree;
+  dtree.train(training_set, classes, golf_data_types);
+  MatrixXd test_set = golf_test_set.topLeftCorner(golf_test_set.rows(),
+                                                  golf_test_set.cols()-1);
+  VectorXi predictions = dtree.predict(test_set);
+  // Should expect exactly what is in the sample
+  VectorXi expected = golf_test_set.col(cols-1).cast<int>();
   EXPECT_EQ(predictions, classes);
 }
 
