@@ -86,13 +86,13 @@ initTestSuite;
         training = dataset_to_nominal(training, are_categorical);
         Y = training.Play;
         training.Play = [];
-        ddata = double(training)
+        ddata = double(training);
         T = DecisionTree;
         T.train(ddata, Y, are_categorical);      
 
         test = dataset('File', 'golf_test.csv', 'delimiter', ',');
         test = dataset_to_nominal(test, are_categorical);
-        dtest = get_with_same_double_values(test, training)
+        dtest = get_with_same_double_values(test, training);
         assertEqual(dtest,[3 3 2 2; 1 3 1 1; 3 1 2 2; 1 3 2 2; ...
                             2 2 1 2]);
         predictions = T.predict(dtest);

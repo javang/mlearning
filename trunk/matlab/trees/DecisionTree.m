@@ -40,26 +40,19 @@ classdef DecisionTree < Tree & handle
         function tree = get_tree(self, node, X, Y)
             if (number_of_categories(Y) == 1 ||  ...
                                     self.number_of_columns_in_use() == 1)
-                fprintf('Returning class ');
-                node.class = get_class(Y)
+                node.class = get_class(Y);
                 tree = node;
             else
-                [gain, column, threshold] = self.best_gain(X, Y)
+                [gain, column, threshold] = self.best_gain(X, Y);
                 node.column_for_next_split = column;
-                self.columns_in_use(column) = false
-                
+                self.columns_in_use(column) = false;
                 is_categorical = self.are_categorical(column);
                 if is_categorical
-                    values = unique(X(:, column))
+                    values = unique(X(:, column));
                     n_values = size(values,1);
                     for i = 1:n_values
-                        fprintf('** Checking matrices for value %d',values(i));
                         [Z, W] = get_matrices_for_value(X, Y,...
                                                         column, values(i));
-                        fprintf ('new data');
-                        Z
-                        fprintf('new classes');
-                        W
                         child = DecisionNode;
                         child.set_feature(column, values(i));
                         child_tree = self.get_tree(child, Z, W);
@@ -122,9 +115,6 @@ classdef DecisionTree < Tree & handle
            predictions = zeros(n, 1);
            for i = 1:n
                predictions(i, 1) = self.get_prediction(self.root, data(i, :));
-               fprintf('data point\n')
-               data(i,:)
-               fprintf('i %d prediction %d \n',i,predictions(i,1)); 
            end
             
         end
@@ -175,7 +165,7 @@ end
     % get the datapoints in matrices X and Y where the column "column"
     % in X has the value "value"
     function [Z, W] = get_matrices_for_value(X, Y, column, value)
-        indices = (X(:, column) == value)
+        indices = (X(:, column) == value);
         Z = X(indices, :);
         W = Y(indices, :);
     end
