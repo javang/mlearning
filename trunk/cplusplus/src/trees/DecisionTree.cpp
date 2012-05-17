@@ -35,6 +35,7 @@ void DecisionTree::get_tree(DecisionNodePtr node,
   if(unique_classes.size() == 1 || number_of_columns_in_use() == 1) {
     IntPair mode_pair = mode(classes.data(), classes.size());
     node->set_class(mode_pair.first);
+    std::cout << "REturning class " << node->get_class() << std::endl;
   } else {
     // (gain, threshold, column for split)
     std::tuple<double, unsigned int, double> gain = get_best_gain(data, classes);
@@ -57,6 +58,7 @@ void DecisionTree::get_tree(DecisionNodePtr node,
         // new_rows_to_use == > all the indices of the elements in 
         // data.col(column) that are equal to the value
         Ints new_rows_to_use;
+        std::cout << "checking values for " << value << std::endl;
         for (unsigned int i = 0; i < data.rows(); ++i) {
           int x = data.cast<int>()(i,column);
           if(x == value) {
@@ -68,8 +70,9 @@ void DecisionTree::get_tree(DecisionNodePtr node,
         // TODO: Find a way of selecting rows without copying them 
         // (some sort of view?)
         MatrixXd new_data = select_rows<double, Ints>(data, new_rows_to_use);
+        std::cout << "new data " << std::endl <<  new_data << std::endl;
         VectorXi new_classes = select_rows<int, Ints>(classes, new_rows_to_use);
-        std::cout << "Vamos a por el hijo para " << value << std::endl;
+        std::cout << "new classes " << std::endl << new_classes << std::endl;
         get_tree(child, new_data, new_classes);
       }
     // continuous feature  

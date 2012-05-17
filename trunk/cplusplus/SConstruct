@@ -49,8 +49,6 @@ conf = Configure(env)
 col = colorizer()
 col.colorize(env)
 
-print "################3>", env['CPPPATH']
-
 build_dir = env['build_dir']
 install_dir = env['install_dir']
 

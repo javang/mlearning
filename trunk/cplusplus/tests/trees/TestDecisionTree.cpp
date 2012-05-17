@@ -56,11 +56,11 @@ protected:
                           2, 1, 0, 1, 0 ;
 
       golf_test_set.resize(5,5);
-      golf_test_set << 0, 1, 1, 1, 0,
-                          1, 1, 0, 0, 0,
-                          0, 2, 1, 1, 0,
-                          1, 1, 1, 1, 0,
-                          2, 0, 0, 1, 1;
+      golf_test_set <<    0, 1, 1, 1, 1,
+                          1, 1, 0, 0, 1,
+                          0, 2, 1, 1, 1,
+                          1, 1, 1, 1, 1,
+                          2, 0, 0, 1, 0;
 
     
       for(unsigned int i = 0; i < golf_training_set.cols()-1; i++)
@@ -120,7 +120,8 @@ TEST_F(DecisionTreeTest, CategoricalPrediction) {
   MatrixXd test_set = golf_test_set.topLeftCorner(golf_test_set.rows(),
                                                   golf_test_set.cols()-1);
   VectorXi predictions = dtree.predict(test_set);
+  std::cout << "predictions " << std::endl << predictions << std::endl;
   VectorXi expected = golf_test_set.col(cols-1).cast<int>();
-  EXPECT_EQ(predictions, classes);
+  EXPECT_EQ(predictions, expected);
 }
 
