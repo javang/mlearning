@@ -64,6 +64,20 @@ initTestSuite;
         ch = root.get_children();
         assertEqual([ch.data],[3 2 1]);
 
+    function test_trivial_decision_tree
+        clear all;
+        training = dataset('File','golf_trivial.csv','delimiter',',');
+        are_categorical = [true true true true true];
+        training = dataset_to_nominal(training, are_categorical);
+        Y = training.Play;
+        ddata = double(training)
+        expected = ddata(:,5);
+        ddata = ddata(:,1:4);
+        T = DecisionTree;
+        T.train(ddata, Y, are_categorical);
+        % use as test the training data
+        predictions = T.predict(ddata);
+        assertEqual(predictions, expected);
         
     function test_decision_tree
         clear all;
