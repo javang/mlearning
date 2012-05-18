@@ -5,9 +5,11 @@
 #include "utility/definitions.h"
 #include "utility/print_utils.h"
 #include "algorithms/index_related.h"
+#include "utility/eigen_helper.h"
 
 #include <algorithm>
 #include <functional>
+#include <memory>
 #include "boost/bind.hpp"
 
 void DecisionTree::train(const MatrixXd &data, const VectorXi &classes,
@@ -40,7 +42,7 @@ void DecisionTree::get_tree(DecisionNodePtr node,
     // (gain, threshold, column for split)
     std::tuple<double, unsigned int, double> gain = get_best_gain(data, classes);
     double g  = std::get<0>(gain);
-    double th = std::get<2>(gain);
+    double threshold = std::get<2>(gain);
     unsigned int column = std::get<1>(gain);
     node->set_column_for_next_split(column);
     columns_to_use_[column] = false;
@@ -55,16 +57,8 @@ void DecisionTree::get_tree(DecisionNodePtr node,
         child->set_feature(column);
         child->set_feature_value(value);
         node->add_child(child);
-        // new_rows_to_use == > all the indices of the elements in 
-        // data.col(column) that are equal to the value
-        Ints new_rows_to_use;
-        std::cout << "checking values for " << value << std::endl;
-        for (unsigned int i = 0; i < data.rows(); ++i) {
-          int x = data.cast<int>()(i,column);
-          if(x == value) {
-            new_rows_to_use.push_back(i);
-          }
-        }
+        Ints new_rows_to_use = rows_where_true<int>(data, column,
+                std::bind2nd(std::equal_to<int>(), value));
         std::cout << "new_rows_to_use ";
         print(new_rows_to_use.begin(), new_rows_to_use.end(), std::cout);
         // TODO: Find a way of selecting rows without copying them 
@@ -79,22 +73,24 @@ void DecisionTree::get_tree(DecisionNodePtr node,
     } else {
       std::vector<ThresholdType> types = {HIGHER, LOWER};
       for(auto type: types) {
-        double threshold = std::get<1>(gain);
         DecisionNodePtr child(new DecisionNode());
         child->set_feature(column);
-        child->set_feature_value(type);
+        child->set_feature_value(threshold);
         node->add_child(child);
-        const MatrixXd::Scalar *init = data.col(column).data();
-        const MatrixXd::Scalar *end =  init + data.rows();
         Ints new_rows_to_use;
         if(type == LOWER) {
-          new_rows_to_use = get_distances_if(init, end,
-                           std::bind2nd(std::less<double>(), threshold));
+          new_rows_to_use = rows_where_true<double>(data, column,
+                std::bind2nd(std::less_equal<double>(), threshold));
         } else if(type == HIGHER) {
-          new_rows_to_use = get_distances_if(init, end, 
-                           std::bind2nd(std::greater<double>(), threshold));
+          new_rows_to_use = rows_where_true<double>(data, column,
+                std::bind2nd(std::greater<double>(), threshold));
         }
-        get_tree(child, data, classes);
+        MatrixXd new_data = select_rows<double, Ints>(data, new_rows_to_use);
+        std::cout << "new data continuous " << std::endl <<  new_data << std::endl;
+
+        VectorXi new_classes = select_rows<int, Ints>(classes, new_rows_to_use);
+        std::cout << "new classes continuous " << std::endl << new_classes << std::endl;
+        get_tree(child, new_data, new_classes);
       }
     }
   }
@@ -106,8 +102,10 @@ unsigned int DecisionTree::number_of_columns_in_use() const {
 
 unsigned int DecisionTree::get_prediction(DecisionNode *node, 
                             const VectorXd &data_point) const {
+  std::cout << "*";
   unsigned int prediction = 0;
   if(node->is_leaf()) {
+    node->show(std::cout);
     prediction = node->get_class();
     return prediction;
   } else {
@@ -117,9 +115,13 @@ unsigned int DecisionTree::get_prediction(DecisionNode *node,
       // Recover a pointer to DecisionNode. It can be done because I know that
       // children are indeed DecisionNodes and the class TreeNode is polymorphic.
       // No need to delete (there is no memory allocation involved
-      DecisionNode *ptr = dynamic_cast<DecisionNode *>(child.get());
+//      DecisionNode *ptr = dynamic_cast<DecisionNode *>(child.get());
+//      if(ptr->matches_value(data_point(col), variable_types_[col])) {
+//        return get_prediction(ptr, data_point);
+//      }   
+      DecisionNodePtr ptr = std::dynamic_pointer_cast<DecisionNode>(child);
       if(ptr->matches_value(data_point(col), variable_types_[col])) {
-        return get_prediction(ptr, data_point);
+        return get_prediction(ptr.get(), data_point);
       }   
       child = child->get_next_sibling();
     }
@@ -155,4 +157,5 @@ std::tuple<double, unsigned int, double>
   std::cout <<  "###################### " << std::endl; 
   return result;
 }
+
 
