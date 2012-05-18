@@ -95,5 +95,22 @@ TEST(TestAlgorithms, TestGetDistances) {
   for(unsigned int i = 0; i < indices.size(); i++) {
     EXPECT_EQ(expected[i], indices[i] );
   }
+  // double
+  VectorXd w(6);
+  w << 2.3, 4.5, 23.3, 1.2, 34.1, 12.1;
+  Ints expected2 = {0,1,3};
+  indices = get_distances_if(w.data(), w.data()+w.size(),
+                                  std::bind2nd(std::less<double>(), 12));
+
+  for(unsigned int i = 0; i < indices.size(); i++) {
+    EXPECT_EQ(expected2[i], indices[i] );
+  }
+
+  indices = get_distances_if(w.data(), w.data()+w.size(),
+                                  std::bind2nd(std::greater<double>(), 23));
+  Ints expected3 = {2,4};
+  for(unsigned int i = 0; i < indices.size(); i++) {
+    EXPECT_EQ(expected3[i], indices[i] );
+  }
 }
 
