@@ -41,7 +41,7 @@ protected:
         InformationMeasure information_measure_;
         Bools columns_to_use_;
         VariableTypes variable_types_;
-        DecisionNodePtr root_;
+        //DecisionNodePtr root_;
 public:
 
   DecisionTree (): information_measure_(GINI) {};
@@ -108,8 +108,6 @@ public:
 typedef std::vector<DecisionTree> DecisionTrees;
 typedef std::shared_ptr<DecisionTree> DecisionTreePtr;
 typedef std::vector<DecisionTreePtr> DecisionTreePtrs;
-
-
 
 
 #endif	/* DECISIONTREE_H */

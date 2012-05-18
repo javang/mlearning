@@ -78,7 +78,7 @@ classdef DecisionTree < Tree & handle
                
         function [bestGain, best_feature, threshold] = best_gain(self, X, Y)
             cols = size(self.columns_in_use,2);
-            bestGain = 0; % best gain
+            bestGain = -1; % best gain
             threshold = 0;
             best_feature = 0;
             for i = 1:cols
@@ -126,7 +126,6 @@ classdef DecisionTree < Tree & handle
             %}
             if(node.isleaf())
                 prediction = node.class;
-                %sprintf('I have a prediction for x => %s\n',char(prediction))
                 return 
             else
                 col = node.column_for_next_split;

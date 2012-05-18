@@ -108,6 +108,13 @@ public:
    */
   bool matches_value(double value, VariableType vtype);
 
+  
+  void show(std::ostream &o) {
+    o << "DecisionNode: feature " <<  feature_ << " value " << feature_value_
+      << " next split " << column_for_next_split_ 
+      << " class " << class_ << std::endl;        
+//    TreeNode::show(o);
+  }
 };
 
 

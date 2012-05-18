@@ -70,7 +70,7 @@ initTestSuite;
         are_categorical = [true true true true true];
         training = dataset_to_nominal(training, are_categorical);
         Y = training.Play;
-        ddata = double(training)
+        ddata = double(training);
         expected = ddata(:,5);
         ddata = ddata(:,1:4);
         T = DecisionTree;
