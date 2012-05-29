@@ -10,6 +10,7 @@
 
 #include <Eigen/Dense>
 #include <iostream>
+#include "utility/definitions.h"
 
 using namespace Eigen;
 
@@ -27,7 +28,10 @@ MatrixXd divide_colwise(const MatrixXd &a, const MatrixXd &x);
  * @param m A Eigen Matrix
  * @param indices The columns to select (the container can be anything that 
  * supports the size() function and access to the elements with []
- * @return 
+ * @return A matrix with the selected columns
+ * The template parameters are the the the type of the content of the matrix
+ * (int, float, double, etc) and the container that stores the indices,
+ * (std::vector, VectorXi, etc)
  */
 template<class ContentType, typename ContainerType> 
 Matrix<ContentType, Dynamic, Dynamic> select_columns(
@@ -45,7 +49,7 @@ Matrix<ContentType, Dynamic, Dynamic> select_columns(
 
 
 /**
- * Selects columns from a matrix
+ * Selects rows from a matrix
  * @param m Matrix
  * @param indices The columns to select (the container can be anything that 
  * supports the size() function and access to the elements with []
@@ -68,6 +72,24 @@ Matrix<ContentType, Dynamic, Dynamic> select_rows(
   return result;
 }
 
+/**
+ * Grow through a column in the matrix and return the rows where the predicate
+ * is true
+ * @param data Matrix
+ * @param column column to use
+ * @param value value
+ * @param Predicate => A class with a binary function
+ * @return The rows that satisfy the predicate
+ */
+template<typename type, class Predicate>
+Ints rows_where_true(const MatrixXd &data, unsigned int column,
+                         Predicate f) {
+  Ints new_rows_to_use;
+  for(unsigned int i = 0; i < data.rows(); i++) 
+    if(f(data.cast<type>()(i,column)))
+      new_rows_to_use.push_back(i);
+  return new_rows_to_use;
+};
 
 #endif	/* EIGEN_HELPER_H */
 

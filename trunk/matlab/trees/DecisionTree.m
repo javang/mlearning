@@ -45,8 +45,7 @@ classdef DecisionTree < Tree & handle
             else
                 [gain, column, threshold] = self.best_gain(X, Y);
                 node.column_for_next_split = column;
-                self.columns_in_use(column) = false
-                
+                self.columns_in_use(column) = false;
                 is_categorical = self.are_categorical(column);
                 if is_categorical
                     values = unique(X(:, column));
@@ -79,7 +78,7 @@ classdef DecisionTree < Tree & handle
                
         function [bestGain, best_feature, threshold] = best_gain(self, X, Y)
             cols = size(self.columns_in_use,2);
-            bestGain = 0; % best gain
+            bestGain = -1; % best gain
             threshold = 0;
             best_feature = 0;
             for i = 1:cols
@@ -127,7 +126,6 @@ classdef DecisionTree < Tree & handle
             %}
             if(node.isleaf())
                 prediction = node.class;
-                %sprintf('I have a prediction for x => %s\n',char(prediction))
                 return 
             else
                 col = node.column_for_next_split;
@@ -166,7 +164,7 @@ end
     % get the datapoints in matrices X and Y where the column "column"
     % in X has the value "value"
     function [Z, W] = get_matrices_for_value(X, Y, column, value)
-        indices = (X(:, column) == value)
+        indices = (X(:, column) == value);
         Z = X(indices, :);
         W = Y(indices, :);
     end

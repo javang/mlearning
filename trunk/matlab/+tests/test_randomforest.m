@@ -3,7 +3,7 @@ initTestSuite;
 
     function test_forest
         clear;
-        randseed;
+        rng('shuffle');
         load('training.mat');
 
         % known values

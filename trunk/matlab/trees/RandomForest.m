@@ -39,7 +39,7 @@ classdef RandomForest < handle
             for i=1:self.n_trees
                 % Choose random set of data points
                 n_choices = ceil(rand(1) * n_points);
-                choices = randsample(n_points);
+                choices = randsample(n_points, n_choices);
             
                 T = DecisionTree;
                 T.gain_measure = self.gain_measure;

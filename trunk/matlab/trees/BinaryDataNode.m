@@ -11,7 +11,7 @@ classdef BinaryDataNode < BinaryTreeNode
               super_args{3} = parent;
            end
            node = node@BinaryTreeNode(super_args{:});
-          data = [];
+           data = [];
         end
         
         

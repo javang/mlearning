@@ -3,6 +3,7 @@
 #define TREE_H
 
 #include "trees/TreeNode.h"
+#include <ostream>
 
 class Tree {
 private: 
@@ -23,19 +24,23 @@ public:
     set_root(root);
   }
 
+  TreeNodePtr get_root() const {
+    return root_;
+  }
+  
   void set_root(TreeNodePtr root) {
     root_ = root ;
   }
   
-  void print_tree() const {
-    print_subtree(root_);
+  void show(std::ostream &o = std::cout) const {
+    print_subtree(root_.get(), o);
   }
 
   /**
    * Prints the subtree under the node root
    * @param root 
    */
-  void print_subtree(TreeNodePtr root) const;
+  void print_subtree(TreeNode *root, std::ostream &o ) const;
 
   virtual ~Tree() {};
 };

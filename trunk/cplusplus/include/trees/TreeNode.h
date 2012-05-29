@@ -85,8 +85,8 @@ public:
     // std::cout << " I am dying: " << name_ << std::endl;
   }
 
-  void show() const {
-    std::cout << "My name is :" << name_ << std::endl;
+  void show(std::ostream &o) const {
+    o << "My name is :" << name_ << std::endl;
   };
 
   void remove_child(int i) {
