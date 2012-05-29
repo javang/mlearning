@@ -35,5 +35,6 @@ public:
 };
 
 
+
 #endif  /* ERROR_H */
 

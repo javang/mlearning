@@ -152,6 +152,5 @@ TEST_F(DecisionTreeTest,ContinuousCategoricalPrediction) {
                                                   golf_test_set.cols()-1);
   VectorXi predictions = dtree->predict(test_set);
   VectorXi expected = golf_test_set.col(cols-1).cast<int>();
-
   EXPECT_EQ(predictions, expected);
 }

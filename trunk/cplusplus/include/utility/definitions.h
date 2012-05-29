@@ -18,6 +18,7 @@ typedef std::vector<bool> Bools;
 typedef std::vector<double> Doubles;
 typedef std::pair<int, int> IntPair;
 typedef std::set<int> IntsSet;
+typedef std::string String;
 
 #endif	/* DEFINITIONS_H */
 
