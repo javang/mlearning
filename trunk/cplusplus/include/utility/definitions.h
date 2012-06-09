@@ -16,7 +16,9 @@
 typedef std::vector<int> Ints;
 typedef std::vector<bool> Bools;
 typedef std::vector<double> Doubles;
+typedef std::vector<char> Chars;
 typedef std::pair<int, int> IntPair;
+typedef std::vector<IntPair > InPairs;
 typedef std::set<int> IntsSet;
 typedef std::string String;
 

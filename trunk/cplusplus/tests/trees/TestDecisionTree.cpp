@@ -1,14 +1,16 @@
+
+
+#include "DecisionTreeTestFixture.h"
 #include "gtest/gtest.h"
 #include "trees/DecisionTree.h"
 #include "trees/information_gain.h"
 #include "utility/print_utils.h"
-
 #include <vector>
 
 /**
  * Fixture to text the measures of information  
  */
-class DecisionTreeTest: public ::testing::Test {
+class DecisionTreeTestFixture: public ::testing::Test {
 protected:
   DecisionTreePtr tree_;
   unsigned int x;
@@ -78,7 +80,7 @@ protected:
   virtual void TearDown() {};
 };
 
-TEST_F(DecisionTreeTest, ChildrenWork) {
+TEST_F(DecisionTreeTestFixture, ChildrenWork) {
   // Check at the same type the casting for the children of a decision node 
   // and the trivial setting of the column for splitting
   DecisionNodePtr root(new DecisionNode());
@@ -96,7 +98,7 @@ TEST_F(DecisionTreeTest, ChildrenWork) {
 }
 
 
-TEST_F(DecisionTreeTest, TrivialSetOfInformationMeasure) {
+TEST_F(DecisionTreeTestFixture, TrivialSetOfInformationMeasure) {
   EXPECT_EQ(tree_->get_information_measure(),GINI);
   tree_->set_information_measure(ENTROPY);
   EXPECT_EQ(tree_->get_information_measure(), ENTROPY);
@@ -104,7 +106,7 @@ TEST_F(DecisionTreeTest, TrivialSetOfInformationMeasure) {
   EXPECT_EQ(tree_->get_information_measure(), GINI);
 }
 
-TEST_F(DecisionTreeTest, TrivialCategoricalPrediction) {
+TEST_F(DecisionTreeTestFixture, TrivialCategoricalPrediction) {
   tree_->set_information_measure(GINI);
   unsigned int rows = golf_test_set.rows();
   unsigned int cols = golf_test_set.cols();
@@ -117,7 +119,7 @@ TEST_F(DecisionTreeTest, TrivialCategoricalPrediction) {
   EXPECT_EQ(predictions, classes);
 }
 
-TEST_F(DecisionTreeTest, CategoricalPrediction) {
+TEST_F(DecisionTreeTestFixture, CategoricalPrediction) {
   tree_->set_information_measure(GINI);
   unsigned int rows = golf_training_set.rows();
   unsigned int cols = golf_training_set.cols();
@@ -133,7 +135,7 @@ TEST_F(DecisionTreeTest, CategoricalPrediction) {
 }
 
 
-TEST_F(DecisionTreeTest,ContinuousCategoricalPrediction) {
+TEST_F(DecisionTreeTestFixture,ContinuousCategoricalPrediction) {
   golf_training_set.col(2) = golf_continuous_humidity;
   golf_data_types[2] = CONTINUOUS;
   

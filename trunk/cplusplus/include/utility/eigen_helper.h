@@ -73,7 +73,7 @@ Matrix<ContentType, Dynamic, Dynamic> select_rows(
 }
 
 /**
- * Grow through a column in the matrix and return the rows where the predicate
+ * Go through a column in the matrix and return the rows where the predicate
  * is true
  * @param data Matrix
  * @param column column to use

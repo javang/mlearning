@@ -1,4 +1,4 @@
-Para correr los tests:
+To run the tests:
 
 addpath '~/matlab/matlab_xunit/xunit/'
 

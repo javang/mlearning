@@ -10,6 +10,12 @@
 
 #include <ostream>
 
+/**
+ * Print the contents of a container that can be explored with an iterator
+ * @param first First iterator
+ * @param last Last iterator
+ * @param out Output stream
+ */
 template<class InputIterator>
 void print(InputIterator first, InputIterator last, std::ostream &out) {
   for(; first != last; first++ ) {
