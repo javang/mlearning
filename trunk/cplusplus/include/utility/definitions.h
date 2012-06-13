@@ -11,6 +11,7 @@
 #include <vector>
 #include <utility>
 #include <set>
+#include <string>
 
 
 typedef std::vector<int> Ints;

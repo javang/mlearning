@@ -39,7 +39,7 @@ env['ENV'] = {'PATH' : path, 'TERM' : term, 'HOME' : home}
 env['CPPPATH'] = ["#include", "/usr/include"] # the symbol "#" means the directory where SConstruct is
 eigen_dir = env['eigen_dir']
 env['CPPPATH'].append(eigen_dir)
-env['CXXFLAGS'] = ["-std=c++0x", "-fPIC"] 
+env['CXXFLAGS'] = ["-std=c++0x", "-fPIC", "-g"] 
 env["CXX"] = env["compiler"] 
 eigen_dir = env['eigen_dir']
 required_headers = [eigen_dir+"/Eigen/Dense" ]
