@@ -8,7 +8,7 @@
 #ifndef MODE_H
 #define	MODE_H
 
-#include "utility/definitions.h"
+#include "core/definitions.h"
 
 /**
  * Algorithm for the mode based on a hash table

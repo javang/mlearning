@@ -2,7 +2,7 @@
 #include "trees/DecisionTree.h"
 #include "trees/DecisionNode.h"
 #include "algorithms/mode.h"
-#include "utility/definitions.h"
+#include "core/definitions.h"
 #include "utility/print_utils.h"
 #include "algorithms/index_related.h"
 #include "utility/eigen_helper.h"
@@ -12,7 +12,9 @@
 #include <memory>
 #include "boost/bind.hpp"
 
-void DecisionTree::train(const MatrixXd &data, const VectorXi &classes,
+
+
+void DecisionTree::do_training(const MatrixXd &data, const VectorXi &classes,
               VariableTypes variable_types) {
   columns_to_use_.resize(data.cols());
   std::fill(columns_to_use_.begin(), columns_to_use_.end(), true);
@@ -23,14 +25,6 @@ void DecisionTree::train(const MatrixXd &data, const VectorXi &classes,
   get_tree(p, data, classes);
 }
 
-VectorXi DecisionTree::predict(const MatrixXd &data) const {
-  VectorXi predictions = VectorXi::Zero(data.rows());
-  for(unsigned int i = 0; i < data.rows(); i++) {
-    DecisionNodePtr p = std::dynamic_pointer_cast<DecisionNode>(root_);
-    predictions(i) =  get_prediction(p.get(), data.row(i));
-  }
-  return predictions;
-}
 
 void DecisionTree::get_tree(DecisionNodePtr node,
                             const MatrixXd &data,
@@ -96,9 +90,26 @@ unsigned int DecisionTree::number_of_columns_in_use() const {
   return std::count(columns_to_use_.begin(), columns_to_use_.end(), true);
 }
 
-unsigned int DecisionTree::get_prediction(DecisionNode *node, 
+
+VectorXi DecisionTree::get_prediction(const MatrixXd &data) const {
+  VectorXi predictions = VectorXi::Zero(data.rows());
+  for(std::size_t i = 0; i < data.rows(); i++) {
+    DecisionNodePtr p = std::dynamic_pointer_cast<DecisionNode>(root_);
+    predictions(i) =  get_prediction(p.get(), data.row(i));
+  }
+  return predictions;
+}
+
+int DecisionTree::get_prediction(const VectorXd &data) const {
+  DecisionNodePtr p = std::dynamic_pointer_cast<DecisionNode>(root_);
+  int pred = get_prediction(p.get(), data);
+  return pred;
+}
+
+
+int DecisionTree::get_prediction(DecisionNode *node, 
                             const VectorXd &data_point) const {
-  unsigned int prediction = 0;
+  int prediction = 0;
   if(node->is_leaf()) {
     return node->get_class();
   } else {

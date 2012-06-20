@@ -9,7 +9,7 @@
 #define	ARGSORT_H
 
 #include <algorithm>
-#include "utility/definitions.h"
+#include "core/definitions.h"
 
 template<class InputIterator>
 class CompareWithIterators {

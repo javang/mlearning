@@ -3,7 +3,7 @@
 
 
 #include "utility/eigen_helper.h"
-#include "utility/definitions.h"
+#include "core/definitions.h"
 
 #include "algorithms/argsort.h"
 #include "algorithms/mode.h"

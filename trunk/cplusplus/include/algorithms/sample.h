@@ -8,7 +8,7 @@
 #ifndef SAMPLE_H
 #define	SAMPLE_H
 
-#include "utility/definitions.h"
+#include "core/definitions.h"
 /**
  * Return sample of integers from (1,n_values). The number of elements in the
  * sample is also random

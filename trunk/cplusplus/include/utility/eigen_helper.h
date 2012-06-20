@@ -10,7 +10,7 @@
 
 #include <Eigen/Dense>
 #include <iostream>
-#include "utility/definitions.h"
+#include "core/definitions.h"
 
 using namespace Eigen;
 

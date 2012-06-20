@@ -1,7 +1,7 @@
 
 #include "utility/eigen_helper.h"
 #include "utility/errors.h"
-#include "utility/definitions.h"
+#include "core/definitions.h"
 #include <iostream>
 
 

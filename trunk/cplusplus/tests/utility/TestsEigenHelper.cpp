@@ -7,7 +7,7 @@
 
 #include "gtest/gtest.h"
 #include "utility/eigen_helper.h"
-#include "utility/definitions.h"
+#include "core/definitions.h"
 #include <iostream>
 #include <limits>
 

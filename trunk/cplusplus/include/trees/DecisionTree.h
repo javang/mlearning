@@ -11,32 +11,28 @@
 #include "trees/Tree.h"
 #include "trees/DecisionNode.h"
 #include "trees/information_gain.h"
-#include "utility/definitions.h"
+#include "core/definitions.h"
+#include "core/SupervisedAlgorithm.h"
+#include "utility/eigen_helper.h"
 
-#include <Eigen/Dense>
-
-class DecisionTree: public Tree {
+class DecisionTree: public Tree, SupervisedClassificationAlgorithm {
 private:
   /**
-   * Returns the predictioin for a data_point recursing
-   * on the subtree of which *node* is the root
-   * @param node Node Root node of the subtree to explore
-   * @param data_point 
-   * @return The class for the data point
-   */  
-  unsigned int get_prediction(DecisionNode *node, 
-                                 const VectorXd &data_point) const;
-
-   /**
-   * Builds the decision tree (recursively).
-   * @param node Node that is the root of the current tree
-   * @param data Data matrix with data points as rows and features in the columns
-   * @param classes Class for each of the data points
-   */
+  * Builds the decision tree (recursively).
+  * @param node Node that is the root of the current tree
+  * @param data Data matrix with data points as rows and features in the columns
+  * @param classes Class for each of the data points
+  */
   void get_tree(DecisionNodePtr node,
                 const MatrixXd &data, 
                 const VectorXi &classes);
+
   
+  VectorXi get_prediction(const MatrixXd &data) const;
+  int get_prediction(const VectorXd &data) const;
+  int get_prediction(DecisionNode *node,  const VectorXd &data_point) const;
+  void do_training(const MatrixXd &data, const VectorXi &classes,
+              VariableTypes variable_types);   
 protected:
         InformationMeasure information_measure_;
         Bools columns_to_use_;
@@ -46,24 +42,8 @@ public:
 
   DecisionTree (): information_measure_(GINI) {};
 
-  
-  /**
-   * Train the tree. 
-   * @param data Matrix with as many rows as data points an as many colums as
-   *        features
-   * @param classes The classes of each of the data points
-   * @param variable_types_ The type of features. Continuous or categorical
-   */
-  void train(const MatrixXd &data, const VectorXi &classes,
-              VariableTypes variable_types);
-  
-  /**
-   * Predict the class for each of the data points 
-   * @param data The matrix with one data point per row
-   * @return A vector with the class for each of the data points.
-   */
-  VectorXi predict(const MatrixXd &data) const;
-  
+   
+
   /**
    * Sets the information measure used for classification
    * @param information_measure

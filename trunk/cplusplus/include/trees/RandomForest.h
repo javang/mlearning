@@ -13,6 +13,7 @@
 #include "utility/eigen_helper.h"
 #include "algorithms/mode.h"
 #include "trees/Tree.h"
+#include "core/types.h"
 
 class RandomForest {
 

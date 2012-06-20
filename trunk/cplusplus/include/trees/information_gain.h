@@ -4,7 +4,8 @@
 #define INFORMATION_GAIN_H
 
 #include "utility/eigen_helper.h"
-#include "utility/definitions.h"
+#include "core/definitions.h"
+#include "core/types.h"
 #include <utility>
 #include <set>
 #include <vector>
@@ -18,12 +19,6 @@ enum ThresholdType {
   LOWER, HIGHER
 };
 
-
-enum VariableType {
-  CATEGORICAL, CONTINUOUS
-};
-
-typedef std::vector<VariableType> VariableTypes;
 
 typedef std::pair<double, double> GainPair; // (gain, threshold)
 

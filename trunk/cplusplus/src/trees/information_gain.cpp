@@ -1,7 +1,7 @@
 #include "trees/information_gain.h"
 #include "algorithms/argsort.h"
 #include "utility/errors.h"
-#include "utility/definitions.h"
+#include "core/definitions.h"
 
 #include <limits>
 #include <iostream>
