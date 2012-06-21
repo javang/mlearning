@@ -18,20 +18,26 @@
  * fscore = 2 * recall * precision / (recall + precision)
  */
 struct FScore {
-  VectorXd fscore;
-  VectorXd precision;
-  VectorXd recall;
+private:
+  VectorXd fscore_;
+  VectorXd precision_;
+  VectorXd recall_;
+public:
+  FScore() {};
+            
+  void calculate(const VectorXi &classes, const VectorXi &predictions);
+  VectorXd get_recall() const;
+  VectorXd get_precision() const;
+  VectorXd get_fscore() const;
 };
 
-
-FScore get_fscore(const Ints &classes, const Ints &predictions);
 
 /**
  * Return 1 if x 0, otherwise return x
  * @param x
  * @return 
  */
-int avoid_zero(int x);
+long int avoid_zero(int x);
 
 #endif	/* FSCORE_H */
 

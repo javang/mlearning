@@ -39,9 +39,9 @@ TEST_F(DecisionTreeTestFixture, TrivialCategoricalPrediction) {
   unsigned int cols = golf_test_set.cols();
   MatrixXd training_set = golf_test_set.topLeftCorner(rows,cols-1);
   VectorXi classes = golf_test_set.col(cols-1).cast<int>();
-  DecisionTree dtree;
-  dtree.train(training_set, classes, golf_data_types);
-  VectorXi predictions = dtree.predict(training_set);
+  SupervisedClassifierPtr dtree(new DecisionTree);
+  dtree->train(training_set, classes, golf_data_types);
+  VectorXi predictions = dtree->predict(training_set);
   // Should expect exactly what is in the sample
   EXPECT_EQ(predictions, classes);
 }
@@ -52,11 +52,11 @@ TEST_F(DecisionTreeTestFixture, CategoricalPrediction) {
   unsigned int cols = golf_training_set.cols();
   MatrixXd training_set = golf_training_set.topLeftCorner(rows,cols-1);
   VectorXi classes = golf_training_set.col(cols-1).cast<int>();
-  DecisionTree dtree;
-  dtree.train(training_set, classes, golf_data_types);
+  SupervisedClassifierPtr dtree(new DecisionTree());
+  dtree->train(training_set, classes, golf_data_types);
   MatrixXd test_set = golf_test_set.topLeftCorner(golf_test_set.rows(),
                                                   golf_test_set.cols()-1);
-  VectorXi predictions = dtree.predict(test_set);
+  VectorXi predictions = dtree->predict(test_set);
   VectorXi expected = golf_test_set.col(cols-1).cast<int>();
   EXPECT_EQ(predictions, expected);
 }

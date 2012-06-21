@@ -15,9 +15,37 @@
 #include "trees/Tree.h"
 #include "core/types.h"
 
-class RandomForest {
+class RandomForest: public SupervisedClassifier {
+private:
+    /**
+   * Train a number of decision trees. Each tree is trained with a random set 
+   * of  data points
+   * @param data A matrix of values for all the features. Rows are data points.
+   *            and columns are features
+   * @param classes The class for each data point.
+   * @param is_categorical A vector with the type of each of the features
+   */
+  void do_training(const MatrixXd &data,
+              const VectorXi &classes,
+              VariableTypes is_categorical);
+  
+      /**
+   * predicts the class of the data points in data.
+   *  
+   * @param data A matrix of values for all the features. Rows are data points.
+   *            and columns are features
+   * @return A vector with the class for each data point.
+   */
+  VectorXi get_prediction(const MatrixXd &data) const;
 
-protected:
+  int get_prediction_datapoint(const VectorXd &datapoint) const;
+  
+  /**
+   * Check that the forest has trees
+   */
+  void check_empty() const;
+
+  protected:
   DecisionTreePtrs trees_;
   InformationMeasure information_measure_;
   unsigned int n_trees_;
@@ -29,27 +57,6 @@ protected:
 
 public:
   RandomForest(unsigned int n_trees);
-
-  /**
-   * Train a number of decision trees. Each tree is trained with a random set 
-   * of  data points
-   * @param data A matrix of values for all the features. Rows are data points.
-   *            and columns are features
-   * @param classes The class for each data point.
-   * @param is_categorical A vector with the type of each of the features
-   */
-  void train(const MatrixXd &data,
-              const VectorXi &classes,
-              VariableTypes is_categorical);
-  
-  /**
-   * predicts the class of the data points in data.
-   *  
-   * @param data A matrix of values for all the features. Rows are data points.
-   *            and columns are features
-   * @return A vector with the class for each data point.
-   */
-  VectorXi predict(const MatrixXd &data);
 
   /**
    * Sets the information measure used for classification
@@ -74,11 +81,7 @@ public:
     return trees_;
   }
 
-
-  
-  
 };
     
-
 #endif	/* RANDOMFOREST_H */
 

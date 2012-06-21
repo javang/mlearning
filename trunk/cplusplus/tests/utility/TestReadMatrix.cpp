@@ -5,11 +5,11 @@
 #include <iostream>
 
 TEST(TestReadMatrix, NotFile) {
-  ASSERT_TRHOW(read_matrix("NotFile.txt", " "), std::ios_base::failure);
+  ASSERT_THROW(read_matrix<double>("NotFile.txt", " "), std::ios_base::failure);
 }
 
 TEST(TestReadMatrix, GoodIntMatrix) {
-  MatrixXi M = read_matrix("good_int_matrix.txt", " ,");
+  MatrixXi M = read_matrix<int>("good_int_matrix.txt", " ,");
   MatrixXi expected(4,3);
   expected << 3, 1, 6, 8,
               1, -13, 456,
@@ -18,7 +18,7 @@ TEST(TestReadMatrix, GoodIntMatrix) {
 }
 
 TEST(TestReadMatrix, GoodDoubleMatrix) {
-  MatrixXd M = read_matrix("good_double_matrix.txt", " ,");
+  MatrixXd M = read_matrix<double>("good_double_matrix.txt", " ,");
   MatrixXd expected(4,3);
   expected << 3.23, 1.34, 6.57, 8.15,
             1.37, -13.6, 456.3, 4.3,
@@ -27,5 +27,5 @@ TEST(TestReadMatrix, GoodDoubleMatrix) {
 }
 
 TEST(TestReadMatrix, BadDoubleMatrix) {
-  ASSERT_THROW(read_matrix("bad_double_matrix.txt", " ,"), SizeError);
+  ASSERT_THROW(read_matrix<double>("bad_double_matrix.txt", " ,"), SizeError);
 }

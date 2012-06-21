@@ -109,7 +109,8 @@ Matrix<T, Dynamic, Dynamic> read_matrix(const String &fn,
                 boost::token_compress_on);
     if(words.size() != cols) {
       fh.close();
-      throw SizeError("Error in the number of columns. Line: " + line);
+      String msg = "Error in the number of columns. Line: " + line;
+      throw SizeError(msg.c_str());
     }
     ++row;
     for (unsigned int j=0; j < cols; ++j) {

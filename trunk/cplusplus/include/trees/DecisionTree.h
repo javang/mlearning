@@ -15,7 +15,7 @@
 #include "core/SupervisedAlgorithm.h"
 #include "utility/eigen_helper.h"
 
-class DecisionTree: public Tree, SupervisedClassificationAlgorithm {
+class DecisionTree: public Tree, public SupervisedClassifier {
 private:
   /**
   * Builds the decision tree (recursively).
@@ -29,7 +29,7 @@ private:
 
   
   VectorXi get_prediction(const MatrixXd &data) const;
-  int get_prediction(const VectorXd &data) const;
+  int get_prediction_datapoint(const VectorXd &data) const;
   int get_prediction(DecisionNode *node,  const VectorXd &data_point) const;
   void do_training(const MatrixXd &data, const VectorXi &classes,
               VariableTypes variable_types);   
@@ -91,3 +91,5 @@ typedef std::vector<DecisionTreePtr> DecisionTreePtrs;
 
 
 #endif	/* DECISIONTREE_H */
+
+  

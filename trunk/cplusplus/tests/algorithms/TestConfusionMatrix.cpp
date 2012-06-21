@@ -1,6 +1,6 @@
 
 #include "gtest/gtest.h"
-#include "trees/confusion_matrix.h"
+#include "algorithms/confusion_matrix.h"
 #include "utility/eigen_helper.h"
 #include <iostream>
 

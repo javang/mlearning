@@ -45,7 +45,8 @@ public:
   virtual ~SizeError() throw() {};
   
   const char *what() const throw() {
-    String msg = "SizeError: " + msg_;
+    String msg = "SizeError: ";
+    msg = msg + msg_;
     return msg.c_str();
   }
 };

@@ -10,7 +10,6 @@
 #include <algorithm>
 #include <functional>
 #include <memory>
-#include "boost/bind.hpp"
 
 
 
@@ -100,7 +99,7 @@ VectorXi DecisionTree::get_prediction(const MatrixXd &data) const {
   return predictions;
 }
 
-int DecisionTree::get_prediction(const VectorXd &data) const {
+int DecisionTree::get_prediction_datapoint(const VectorXd &data) const {
   DecisionNodePtr p = std::dynamic_pointer_cast<DecisionNode>(root_);
   int pred = get_prediction(p.get(), data);
   return pred;
@@ -151,5 +150,3 @@ std::tuple<double, unsigned int, double>
   auto result = std::make_tuple(best_gain, best_feature, threshold);
   return result;
 }
-
-

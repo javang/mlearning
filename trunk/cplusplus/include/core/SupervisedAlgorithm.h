@@ -11,7 +11,7 @@
 #include "utility/eigen_helper.h"
 #include "core/types.h"
 
-class SupervisedClassificationAlgorithm {
+class SupervisedClassifier {
 private:
   virtual void do_training(const MatrixXd &data, 
                            const VectorXi &classes,
@@ -29,16 +29,16 @@ private:
    * @param datapoint
    * @return The class the datapoint belongs to
    */
-  virtual int get_prediction(const VectorXd &datapoint) const = 0 ; 
+  virtual int get_prediction_datapoint(const VectorXd &datapoint) const = 0 ; 
   
   
   // disable copy construction and assignment
-  SupervisedClassificationAlgorithm(const SupervisedClassificationAlgorithm &s);
-  void operator=(const SupervisedClassificationAlgorithm &s);
+  SupervisedClassifier(const SupervisedClassifier &s);
+  void operator=(const SupervisedClassifier &s);
 
 public:
   
-  SupervisedClassificationAlgorithm();
+  SupervisedClassifier() {};
   /**
    * Train the algorithm
    * @param data Data used to train the algorithm
@@ -49,7 +49,7 @@ public:
              const VectorXi &classes,
              VariableTypes variable_types) {
     do_training(data, classes, variable_types);
-  }
+  };
   
   /**
    * Get predictions for a set of data points
@@ -58,21 +58,22 @@ public:
    */
   VectorXi predict(const MatrixXd &data) const {
     return get_prediction(data);
-  }
+  };
+  
   /**
    * Get a prediction for a data point
    * @param datapoint
    * @return get the class the point belongs to
    */
-  int predict(const VectorXd &datapoint) const {
-    return get_prediction(datapoint);
+  int predict_datapoint(const VectorXd &datapoint) const {
+    return get_prediction_datapoint(datapoint);
   };
   
-  virtual ~SupervisedClassificationAlgorithm() {};
+  virtual ~SupervisedClassifier() {};
  
 };
 
-class SupervisedRegressionAlgorithm  {
+class SupervisedRegression  {
   
 private:
   virtual void do_training(const MatrixXd &data, const VectorXd &values) = 0;
@@ -80,43 +81,36 @@ private:
   virtual double get_prediction(const VectorXd &data) const = 0 ; 
   
   
-  SupervisedRegressionAlgorithm(const SupervisedRegressionAlgorithm &s);        
+  SupervisedRegression(const SupervisedRegression &s);        
   
-  void operator =(const SupervisedRegressionAlgorithm &s);
+  void operator =(const SupervisedRegression &s);
 
 public:
   
-  SupervisedRegressionAlgorithm();
+  SupervisedRegression();
 
-  void train(const MatrixXd &data, const VectorXd &values) {
-    do_training(data, values);
-  }
-  
-  
-  
+  void train(const MatrixXd &data, const VectorXd &values);
+    
   /**
    * Get a prediction for a data point
    * @param datapoint
    * @return get the class the point belongs to
    */
-  double predict(const VectorXd &datapoint) const {
-    return get_prediction(datapoint);
-  }
+  double predict(const VectorXd &datapoint) const;
   
   /**
   * Get predictions for a set of data points
   * @param data
   * @return the classes for the data points
   */
-  VectorXd predict(const MatrixXd &data) {
-    return get_prediction(data);
-  }
+  VectorXd predict(const MatrixXd &data);
   
-  virtual ~SupervisedRegressionAlgorithm() {};
+  
+  virtual ~SupervisedRegression() {};
   
 };
 
-
+typedef std::shared_ptr<SupervisedClassifier> SupervisedClassifierPtr;
 
 #endif	/* SUPERVISEDALGORITHM_H */
 

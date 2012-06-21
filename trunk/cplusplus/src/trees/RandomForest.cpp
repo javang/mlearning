@@ -2,15 +2,17 @@
 #include "trees/RandomForest.h"
 #include "utility/eigen_helper.h"
 #include "algorithms/sample.h"
+#include "utility/errors.h"
 #include <stdexcept>
 #include <random>
+
 
 RandomForest::RandomForest(unsigned int n_trees) {
   n_trees_ = n_trees;
   set_information_measure(GINI);
 }
 
-void RandomForest::train(const MatrixXd &data,
+void RandomForest::do_training(const MatrixXd &data,
             const VectorXi &classes,
             VariableTypes is_categorical) {
   Ints choices = get_random_sample(data.rows());
@@ -23,20 +25,26 @@ void RandomForest::train(const MatrixXd &data,
   }
 }
 
-VectorXi RandomForest::predict(const MatrixXd &data) {
-  MatrixXi predictions(data.rows(), n_trees_);
-  if(trees_.empty()) { // empty() is more general than size() == 0
-    throw std::length_error("There are no trees in the forest");
-  }
-  for (unsigned int i = 0; i < trees_.size(); ++i) {
-    VectorXi p = trees_[i]->predict(data);
-    predictions.col(i) = p;
-  }
+VectorXi RandomForest::get_prediction(const MatrixXd &data) const {
   VectorXi classes(data.rows());
-  for (unsigned int i = 0; i < data.rows(); ++i) {
-    VectorXi v = predictions.row(i);
-    IntPair p = mode(v.data(), n_trees_);
+  for (std::size_t i = 0; i < data.rows(); ++i) {
+    classes[i] = get_prediction_datapoint(data.row(i));
   }
   return classes;
 }
 
+int RandomForest::get_prediction_datapoint(const VectorXd &datapoint) const {
+  check_empty();
+  VectorXi predictions(n_trees_);
+  for (unsigned int i = 0; i < trees_.size(); ++i) {
+    predictions[i] = trees_[i]->predict_datapoint(datapoint);
+  }
+  IntPair p = mode(predictions);
+  return p.first;
+}
+
+void RandomForest::check_empty() const {
+  if(trees_.empty()) {
+    throw SizeError("There are no trees in the forest");
+  }
+}
