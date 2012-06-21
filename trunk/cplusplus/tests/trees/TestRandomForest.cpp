@@ -22,7 +22,8 @@ TEST(RandomForest, RandomForestPrediction) {
   VectorXi predictions = sup->predict(test_set.leftCols(cols-1));
   // get fscore, precision, recall
   FScore f;
-  f.calculate(predictions, test_set.rightCols(1).cast<int>());
+  VectorXi cl = test_set.rightCols(1).cast<int>();
+  f.calculate(predictions, cl);
   // This asserts are approximated based on previous runs
   EXPECT_PRED_FORMAT2(::testing::DoubleLE, f.get_precision()[0], 0.8);
   EXPECT_PRED_FORMAT2(::testing::DoubleLE, f.get_recall()[0], 0.8);

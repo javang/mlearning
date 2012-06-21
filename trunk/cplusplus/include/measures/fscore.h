@@ -9,7 +9,7 @@
 #define	FSCORE_H
 
 #include "utility/eigen_helper.h"
-#include <cassert>
+#include "algorithms/confusion_matrix.h"
 
 /**
  * FScore for a set of variables.
@@ -24,8 +24,26 @@ private:
   VectorXd recall_;
 public:
   FScore() {};
-            
-  void calculate(const VectorXi &classes, const VectorXi &predictions);
+  
+  /**
+   * Calculate the fscore given the predictions and the true classes
+   * @param classes
+   * @param predictions
+   * T can be a std::vector<int> or a VectorXi
+   */
+  template<class T>
+  void calculate(const T &predictions, const T &classes) {
+    MatrixXi cmat = get_confusion_matrix(predictions, classes);
+    calculate_from_confusion_matrix(cmat);
+  }
+
+  /**
+   * Calculates the fscore using the confusion matrix
+   * @param cmat
+   */
+  void calculate_from_confusion_matrix(const MatrixXi &cmat);
+
+  
   VectorXd get_recall() const;
   VectorXd get_precision() const;
   VectorXd get_fscore() const;
@@ -37,7 +55,8 @@ public:
  * @param x
  * @return 
  */
-long int avoid_zero(int x);
+int avoid_zero(int x);
+double avoid_zero_double(double x);
 
 #endif	/* FSCORE_H */
 

@@ -16,7 +16,7 @@ def check_headers(conf, files):
 #################################
 
 # directories in the project
-dirs = ["utility", "algorithms", "trees"]
+dirs = ["utility", "algorithms", "trees", "core", "measures"]
 
 
 #################################
