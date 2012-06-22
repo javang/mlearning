@@ -12,16 +12,16 @@ TEST(TestReadMatrix, GoodIntMatrix) {
   
   //TODO: Find a way of locating the file on disk
   MatrixXi M = read_matrix<int>("good_int_matrix.txt", " ,");
-  MatrixXi expected(4,3);
+  MatrixXi expected(3,4);
   expected << 3, 1, 6, 8,
-              1, -13, 456,
+              1, 53, -13, 456,
               4, 4, 0, -1;
   EXPECT_EQ(M, expected);
 }
 
 TEST(TestReadMatrix, GoodDoubleMatrix) {
   MatrixXd M = read_matrix<double>("good_double_matrix.txt", " ,");
-  MatrixXd expected(4,3);
+  MatrixXd expected(3,4);
   expected << 3.23, 1.34, 6.57, 8.15,
             1.37, -13.6, 456.3, 4.3,
             4, 4.2, 0, -1.234;

@@ -47,9 +47,10 @@ std::size_t read_buffer(std::istream *is, Chars &buffer );
 /**
  * Count the number of lines in a set of characters
  * @param chars
+ * @param max_chars Maximum number of characters to read to count the lines
  * @return 
  */
-std::size_t count_lines(const Chars &chars);
+std::size_t count_lines(const Chars &chars, std::size_t max_chars);
 
 
 
