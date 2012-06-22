@@ -26,6 +26,7 @@ TEST(TestReadMatrix, GoodDoubleMatrix) {
             1.37, -13.6, 456.3, 4.3,
             4, 4.2, 0, -1.234;
   EXPECT_EQ(M, expected);
+  // changed added from branch fix_readmatrix on chime
 }
 
 TEST(TestReadMatrix, BadDoubleMatrix) {
