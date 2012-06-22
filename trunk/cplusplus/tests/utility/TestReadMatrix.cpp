@@ -9,6 +9,8 @@ TEST(TestReadMatrix, NotFile) {
 }
 
 TEST(TestReadMatrix, GoodIntMatrix) {
+  
+  //TODO: Find a way of locating the file on disk
   MatrixXi M = read_matrix<int>("good_int_matrix.txt", " ,");
   MatrixXi expected(4,3);
   expected << 3, 1, 6, 8,
