@@ -29,6 +29,7 @@ void FScore::calculate_from_confusion_matrix(const MatrixXi &cmat) {
 
 VectorXd FScore::get_recall() const {
   return recall_;
+  // changed from the branch fix_readmatrix on the mac
 }
 
 VectorXd FScore::get_precision() const {
