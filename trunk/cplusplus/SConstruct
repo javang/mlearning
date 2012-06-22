@@ -16,6 +16,7 @@ def check_headers(conf, files):
 #################################
 
 # directories in the project
+fn_config = 'scons_config.py'
 dirs = ["utility", "algorithms", "trees", "core", "measures"]
 
 
@@ -26,12 +27,13 @@ home=os.environ["HOME"]
 path=os.environ["PATH"]
 term = os.environ["TERM"]
 
-variables = Variables('scons_config.py')
+variables = Variables(fn_config)
 variables.Add("build_dir", "directory to build the library", default="build")
 variables.Add("install_dir", "directory to install the library", default="lib")
-variables.Add(PathVariable("eigen_dir", "directory containing the files of the Eigen library",""))
-variables.Add(PathVariable("google_test_dir", "directory containg the google_test " \
-                        "include and lib directories",""))
+variables.Add(PathVariable("eigen_dir", 
+            "directory containing the files of the Eigen library",""))
+variables.Add(PathVariable("google_test_dir", 
+     "directory containg the google_test, include, and lib directories",""))
 variables.Add("compiler", "The compiler to use", default="g++")
 
 env = Environment(variables=variables)
@@ -42,34 +44,37 @@ env['CPPPATH'].append(eigen_dir)
 env['CXXFLAGS'] = ["-std=c++0x", "-fPIC", "-g"] 
 env["CXX"] = env["compiler"] 
 eigen_dir = env['eigen_dir']
-required_headers = [eigen_dir+"/Eigen/Dense" ]
+required_headers = [eigen_dir+"/Eigen/Dense"]
 conf = Configure(env)
-# check_headers(conf, required_headers)
+check_headers(conf, required_headers)
+
 # for nice compiling colors
 col = colorizer()
 col.colorize(env)
 
+# Build and install directories
 build_dir = env['build_dir']
 install_dir = env['install_dir']
-
+test_build_dir = os.path.join(env['build_dir'], "tests")
+test_install_dir = os.path.join(install_dir,"tests")
 
 # Build and install dynamic library 
-VariantDir(build_dir, "src", duplicate=0)
+VariantDir(build_dir, "src", duplicate=False)
 mlearning = SConscript("%s/SConscript" % build_dir, exports=['env','dirs'])
-VariantDir(install_dir, ".", duplicate=0)
+VariantDir(install_dir, ".", duplicate=False)
 Install(install_dir, mlearning)
 
-# Same for program of tests
+# Build and install dynamic library 
 google_test_dir = env['google_test_dir']
 env['CPPPATH'].append([google_test_dir + "/include"])
 build_path = os.path.abspath(build_dir)
 env['LIBPATH'] = [google_test_dir + "/lib", build_path]
 
-build_dir = env['build_dir'] + "/tests"
-VariantDir(build_dir, "tests", duplicate=False)
-tests_exec = SConscript("%s/SConscript" % build_dir, exports=['env','dirs'])
-VariantDir(install_dir, ".", duplicate=0)
-Install(install_dir, tests_exec)
+# build and install tests
+VariantDir(test_build_dir, "tests", duplicate=False)
+tests_exec, input_files = SConscript("%s/SConscript" % test_build_dir, 
+                                     exports=['env','dirs'])
+VariantDir(test_install_dir, ".", duplicate=False)
+Install(test_install_dir, [tests_exec, input_files])
 
-#env.Alias('install', install_dir)
 

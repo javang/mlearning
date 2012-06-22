@@ -2,5 +2,6 @@ import os
 
 Import('env')
 objects = [env.Object(f) for f in Glob("*cpp")]
-Return("objects")    
+inputs = Glob(os.path.join(".", "input", "*"))
+Return("objects", "inputs")    
 
