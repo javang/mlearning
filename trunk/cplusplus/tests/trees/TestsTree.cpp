@@ -3,11 +3,11 @@
 #include "trees/Tree.h"
 #include "core/definitions.h"
 #include <iostream>
+#include <algorithm>
 
-
-Ints get_ref_counts(const TreeNodePtrs &nodes) {
+Ints get_ref_counts(const NodePtrs &nodes) {
   Ints counts;
-  TreeNodePtrs::const_iterator it = nodes.begin();
+  NodePtrs::const_iterator it = nodes.begin();
   for(it = nodes.begin(); it != nodes.end(); ++it) {
     counts.push_back(it->use_count());
   }
@@ -17,16 +17,16 @@ Ints get_ref_counts(const TreeNodePtrs &nodes) {
 TEST(TestTree, NodeParent) {
   TreeNodePtr root(new TreeNode());
   Tree tree(root);
-  TreeNodePtr node(new TreeNode());
+  NodePtr node(new TreeNode());
   root->add_child(node);
   EXPECT_TRUE(root->get_first_child() == node);
   EXPECT_TRUE(node->get_parent() == root.get());
 }
 
 TEST(TestTree, TestSibling) {
-  TreeNodePtr root(new TreeNode());
-  TreeNodePtr x(new TreeNode());
-  TreeNodePtr y(new TreeNode());
+  NodePtr root(new TreeNode());
+  NodePtr x(new TreeNode());
+  NodePtr y(new TreeNode());
   root->add_child(x);
   root->add_child(y);
   EXPECT_EQ(x->get_parent(), y->get_parent());
@@ -35,15 +35,15 @@ TEST(TestTree, TestSibling) {
 
 
 TEST(TestTreeFixture, TestReferenceCounting) {
-  TreeNodePtr zero(new TreeNode("zero"));
-  TreeNodePtr one(new TreeNode("one"));
-  TreeNodePtr two(new TreeNode("two"));
-  TreeNodePtr three(new TreeNode("three"));
-  TreeNodePtr four(new TreeNode("four"));
-  TreeNodePtr five(new TreeNode("five"));
-  TreeNodePtr six(new TreeNode("six"));
-  TreeNodePtr seven(new TreeNode("seven"));
-  TreeNodePtrs nodes;
+  NodePtr zero(new TreeNode("zero"));
+  NodePtr one(new TreeNode("one"));
+  NodePtr two(new TreeNode("two"));
+  NodePtr three(new TreeNode("three"));
+  NodePtr four(new TreeNode("four"));
+  NodePtr five(new TreeNode("five"));
+  NodePtr six(new TreeNode("six"));
+  NodePtr seven(new TreeNode("seven"));
+  NodePtrs nodes;
   nodes.push_back(zero);
   nodes.push_back(one);
   nodes.push_back(two);
@@ -52,6 +52,7 @@ TEST(TestTreeFixture, TestReferenceCounting) {
   nodes.push_back(five);
   nodes.push_back(six);
   nodes.push_back(seven);
+  
 
   Ints counts = get_ref_counts(nodes);
   int expected_counts1[8] = {2, 2, 2, 2, 2, 2, 2, 2};
@@ -75,14 +76,15 @@ TEST(TestTreeFixture, TestReferenceCounting) {
     EXPECT_EQ(expected_counts3[i], counts[i]);
   }
   
-  TreeNodePtrs children = one->get_children();
-  std::vector<std::string> names;
+  NodePtrs children = one->get_children();
+  Strings names;
   names.push_back("zero");
   names.push_back("two");
   names.push_back("three");
   EXPECT_EQ(names.size(), children.size());
-  for (unsigned int i = 0; i < names.size(); ++i) {
-    EXPECT_EQ(names[i], children[i]->get_name());
+  Strings::iterator s = names.begin();
+  for (NodePtrs::iterator i = children.begin(); i != children.end(); ++i, ++s) {
+    EXPECT_EQ(*s, (*i)->get_name());
   }
 
   counts = get_ref_counts(nodes);
@@ -100,7 +102,7 @@ TEST(TestTreeFixture, TestReferenceCounting) {
     EXPECT_EQ(expected_counts5[i], counts[i]);
   }
 
-  Tree tree(seven);
+  Tree tree(std::dynamic_pointer_cast<TreeNode>(seven));
   counts = get_ref_counts(nodes);
   int expected_counts6[8] = {4, 3, 4, 4, 3, 3, 2, 3};
   for (unsigned int i = 0; i < nodes.size(); ++i) {

@@ -45,7 +45,7 @@ public:
 
   
   VectorXd get_recall() const;
-  VectorXd get_precision() const;
+  VectorXd get_precision() const ;
   VectorXd get_fscore() const;
 };
 

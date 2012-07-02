@@ -40,7 +40,7 @@ public:
    * Prints the subtree under the node root
    * @param root 
    */
-  void print_subtree(TreeNode *root, std::ostream &o ) const;
+  void print_subtree(Node *root, std::ostream &o ) const;
 
   virtual ~Tree() {};
 };

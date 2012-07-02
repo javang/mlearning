@@ -15,7 +15,7 @@ TEST_F(DecisionTreeTestFixture, ChildrenWork) {
   for(unsigned int i = 0; i < n; i++) {
     root->add_child(DecisionNodePtr(new DecisionNode()));
   }
-  TreeNodePtrs children = root->get_children();
+  NodePtrs children = root->get_children();
   for(unsigned int i = 0; i < n; i++) {
     DecisionNode *ptr = dynamic_cast<DecisionNode *>(children[i].get());
     ptr->set_column_for_next_split(i);

@@ -6,7 +6,7 @@
 #include "utility/print_utils.h"
 #include "algorithms/index_related.h"
 #include "utility/eigen_helper.h"
-
+#include "utility/errors.h"
 #include <algorithm>
 #include <functional>
 #include <memory>
@@ -113,7 +113,7 @@ int DecisionTree::get_prediction(DecisionNode *node,
     return node->get_class();
   } else {
     unsigned int col = node->get_column_for_next_split();
-    TreeNodePtr child = node->get_first_child();
+    NodePtr child = node->get_first_child();
     while(child != 0) {
       // Recover a pointer to DecisionNode. It can be done because I know that
       // children are indeed DecisionNodes and the class TreeNode is polymorphic.

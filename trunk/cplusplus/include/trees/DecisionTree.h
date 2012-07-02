@@ -14,6 +14,7 @@
 #include "core/definitions.h"
 #include "core/SupervisedAlgorithm.h"
 #include "utility/eigen_helper.h"
+#include <memory>
 
 class DecisionTree: public Tree, public SupervisedClassifier {
 private:
@@ -85,7 +86,6 @@ public:
                               const VectorXi &classes);
 };
   
-typedef std::vector<DecisionTree> DecisionTrees;
 typedef std::shared_ptr<DecisionTree> DecisionTreePtr;
 typedef std::vector<DecisionTreePtr> DecisionTreePtrs;
 

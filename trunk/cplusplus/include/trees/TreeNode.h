@@ -2,7 +2,9 @@
 #ifndef TREENODE_H
 #define TREENODE_H
 
-#include "utility/errors.h"
+//#include "utility/errors.h"
+#include "core/definitions.h"
+#include "trees/Node.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -13,70 +15,68 @@ typedef std::shared_ptr< TreeNode > TreeNodePtr;
 typedef std::vector< TreeNodePtr > TreeNodePtrs;
 
 
-class TreeNode {
+class TreeNode: public Node {
 
 private:
   void init();
-  TreeNode operator=(TreeNode T);
-  TreeNode(TreeNode &T);
   
 protected:
-  std::string name_;
-  // TreeNodePtr applies because the parent owns the children. They must be
+  String name_;
+  // NodePtr applies because the parent owns the children. They must be
   // living if the parent is using them
-  TreeNodePtr first_child_;
-  TreeNodePtr next_sibling_;
-  // A node does not share its parent. No TreeNodePtr required. Using it is an mistake
-  TreeNode *parent_;
+  NodePtr first_child_;
+  NodePtr next_sibling_;
+  // A node does not share its parent. No NodePtr required. Using it is an mistake
+  Node *parent_;
 
-  
 public:
   TreeNode() {
+    name_ = "";
     init();
   };
 
-  TreeNode(const std::string &name) {
+  TreeNode(const String &name) {
     parent_ = nullptr;
     name_ = name;
     init();
   };
 
-  TreeNode(TreeNode *parent, TreeNodePtr first_child, TreeNodePtr next_sibling);
+  TreeNode(Node *parent, NodePtr first_child, NodePtr next_sibling);
 
-  TreeNodePtr get_first_child() const {
+  NodePtr get_first_child() const {
     return first_child_;
   }
-  void set_first_child(TreeNodePtr t) {
+  void set_first_child(NodePtr t) {
     first_child_ = t;
   }
 
-  TreeNodePtr get_next_sibling() const {
+  NodePtr get_next_sibling() const {
     return next_sibling_;
   }
-  void set_next_sibling(TreeNodePtr t) {
+  void set_next_sibling(NodePtr t) {
     next_sibling_ = t;
   }
 
-  TreeNode* get_parent() const {
+  Node* get_parent() const {
     return parent_;
   }
-  void set_parent(TreeNode *t) {
+  void set_parent(Node *t) {
     if(parent_ != nullptr) {
-      throw WrongParent("Only one parent per node is allowed");
+//      throw WrongParent("Only one parent per node is allowed");
     }
     parent_ = t;
   }
 
-  std::string get_name() const {
+  String get_name() const {
     return name_;
   }
-  void set_name(const std::string &name) {
+  void set_name(const String &name) {
     name_ = name;
   }
 
-  void add_child(TreeNodePtr node);
+  void add_child(NodePtr node);
 
-  TreeNodePtrs get_children();
+  NodePtrs get_children();
 
 
   unsigned int get_number_of_children() const;
@@ -86,7 +86,8 @@ public:
   }
 
   void show(std::ostream &o) const {
-    o << "My name is :" << name_ << std::endl;
+    //o << "caca" << std::endl;
+    //o << "My name is :" << name_ << std::endl;
   };
 
   void remove_child(int i) {
@@ -95,6 +96,8 @@ public:
   
   bool is_leaf() const;
 };
+
+
 
 #endif
 
