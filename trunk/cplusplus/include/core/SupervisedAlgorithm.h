@@ -10,8 +10,11 @@
 
 #include "utility/eigen_helper.h"
 #include "core/types.h"
+#include "core/MLAlgorithm.h"
 
-class SupervisedClassifier {
+
+
+class SupervisedClassifier: public MLAlgorithm {
 private:
   virtual void do_training(const MatrixXd &data, 
                            const VectorXi &classes,
@@ -70,10 +73,11 @@ public:
   };
   
   virtual ~SupervisedClassifier() {};
+  
  
 };
 
-class SupervisedRegression  {
+class SupervisedRegression: public MLAlgorithm  {
   
 private:
   virtual void do_training(const MatrixXd &data, const VectorXd &values) = 0;
@@ -107,6 +111,8 @@ public:
   
   
   virtual ~SupervisedRegression() {};
+  
+
   
 };
 

@@ -64,17 +64,18 @@ mlearning = SConscript("%s/SConscript" % build_dir, exports=['env','dirs'])
 VariantDir(install_dir, ".", duplicate=False)
 Install(install_dir, mlearning)
 
-# Build and install dynamic library 
+# Build and install tests
 google_test_dir = env['google_test_dir']
 env['CPPPATH'].append([google_test_dir + "/include"])
 build_path = os.path.abspath(build_dir)
 env['LIBPATH'] = [google_test_dir + "/lib", build_path]
-
-# build and install tests
 VariantDir(test_build_dir, "tests", duplicate=False)
 tests_exec, input_files = SConscript("%s/SConscript" % test_build_dir, 
                                      exports=['env','dirs'])
 VariantDir(test_install_dir, ".", duplicate=False)
-Install(test_install_dir, [tests_exec, input_files])
+Install(test_install_dir, [tests_exec])
+input_dir = os.path.join(test_install_dir, "input")
+VariantDir(input_dir, ".", duplicate=False)
+Install(input_dir, [ input_files])
 
 

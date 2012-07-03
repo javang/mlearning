@@ -56,7 +56,7 @@ std::size_t count_lines(const Chars &chars, std::size_t max_chars);
 
 /**
  * Count the number of lines in the stream
- * @param fh
+ * @param fh Input stream
  * @return the number of lines
  */
 std::size_t istream_count_lines(std::istream *fh);

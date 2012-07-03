@@ -81,6 +81,9 @@ public:
     return trees_;
   }
 
+  void show_algorithm_information() const {
+    std::cout << "Random forest " << std::endl;
+  }
 };
     
 #endif	/* RANDOMFOREST_H */

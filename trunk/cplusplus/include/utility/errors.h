@@ -47,6 +47,7 @@ public:
   const char *what() const throw() {
     String msg = "SizeError: ";
     msg = msg + msg_;
+    std::cout << "The error should print " << msg << std::endl;
     return msg.c_str();
   }
 };

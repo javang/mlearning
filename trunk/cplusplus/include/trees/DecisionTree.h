@@ -84,6 +84,11 @@ public:
   std::tuple<double, unsigned int, double>
                 get_best_gain(const MatrixXd &data, 
                               const VectorXi &classes);
+  
+  
+  void show_algorithm_information() const {
+    std::cout << "decision tree " << std::endl;
+  }
 };
   
 typedef std::shared_ptr<DecisionTree> DecisionTreePtr;

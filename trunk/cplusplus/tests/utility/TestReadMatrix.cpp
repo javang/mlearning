@@ -11,7 +11,7 @@ TEST(TestReadMatrix, NotFile) {
 TEST(TestReadMatrix, GoodIntMatrix) {
   
   //TODO: Find a way of locating the file on disk
-  MatrixXi M = read_matrix<int>("good_int_matrix.txt", " ,");
+  MatrixXi M = read_matrix<int>("input/good_int_matrix.txt", " ,");
   MatrixXi expected(3,4);
   expected << 3, 1, 6, 8,
               1, 53, -13, 456,
@@ -20,7 +20,7 @@ TEST(TestReadMatrix, GoodIntMatrix) {
 }
 
 TEST(TestReadMatrix, GoodDoubleMatrix) {
-  MatrixXd M = read_matrix<double>("good_double_matrix.txt", " ,");
+  MatrixXd M = read_matrix<double>("input/good_double_matrix.txt", " ,");
   MatrixXd expected(3,4);
   expected << 3.23, 1.34, 6.57, 8.15,
             1.37, -13.6, 456.3, 4.3,
@@ -30,5 +30,5 @@ TEST(TestReadMatrix, GoodDoubleMatrix) {
 }
 
 TEST(TestReadMatrix, BadDoubleMatrix) {
-  ASSERT_THROW(read_matrix<double>("bad_double_matrix.txt", " ,"), SizeError);
+  ASSERT_THROW(read_matrix<double>("input/bad_double_matrix.txt", " ,"), SizeError);
 }

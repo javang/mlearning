@@ -9,17 +9,19 @@
 
 TEST(RandomForest, RandomForestPrediction) {
   // Read training data (UCI Iris dataset)
-  String path = "trees/input/training_random_forest.txt";
+  String path = "input/training_random_forest.txt";
   String delimiters = " ";
   MatrixXd training_set = read_matrix<double>(path, delimiters);
   unsigned int cols = training_set.cols();
   SupervisedClassifierPtr sup(new RandomForest(10));
   VariableTypes types = {CONTINUOUS, CONTINUOUS, CONTINUOUS, CONTINUOUS};
+  std::cout << training_set << std::endl;
   sup->train(training_set.leftCols(cols-1), 
                                 training_set.rightCols(1).cast<int>(), types);
-  path = "test/input/test_random_forest.txt";
+  path = "input/test_random_forest.txt";
   MatrixXd test_set = read_matrix<double>(path, delimiters);
   VectorXi predictions = sup->predict(test_set.leftCols(cols-1));
+  
   // get fscore, precision, recall
   FScore f;
   VectorXi cl = test_set.rightCols(1).cast<int>();
