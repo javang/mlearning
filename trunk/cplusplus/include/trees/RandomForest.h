@@ -13,7 +13,11 @@
 #include "utility/eigen_helper.h"
 #include "algorithms/mode.h"
 #include "trees/Tree.h"
-#include "core/types.h"
+#include "types.h"
+
+
+namespace ml {
+namespace trees {
 
 class RandomForest: public SupervisedClassifier {
 private:
@@ -25,8 +29,8 @@ private:
    * @param classes The class for each data point.
    * @param is_categorical A vector with the type of each of the features
    */
-  void do_training(const MatrixXd &data,
-              const VectorXi &classes,
+  void do_training(const Eigen::MatrixXd &data,
+              const Eigen::VectorXi &classes,
               VariableTypes is_categorical);
   
       /**
@@ -36,9 +40,9 @@ private:
    *            and columns are features
    * @return A vector with the class for each data point.
    */
-  VectorXi get_prediction(const MatrixXd &data) const;
+  Eigen::VectorXi get_prediction(const Eigen::MatrixXd &data) const;
 
-  int get_prediction_datapoint(const VectorXd &datapoint) const;
+  int get_prediction_datapoint(const Eigen::VectorXd &datapoint) const;
   
   /**
    * Check that the forest has trees
@@ -85,6 +89,10 @@ public:
     std::cout << "Random forest " << std::endl;
   }
 };
-    
+  
+
+} // trees
+} // ml
+
 #endif	/* RANDOMFOREST_H */
 

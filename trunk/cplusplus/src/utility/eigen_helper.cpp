@@ -1,8 +1,12 @@
 
 #include "utility/eigen_helper.h"
 #include "utility/errors.h"
-#include "core/definitions.h"
+#include "definitions.h"
 #include <iostream>
+using namespace Eigen;
+
+namespace ml {
+namespace utility {
 
 
 MatrixXd divide_colwise(const MatrixXd &a, const MatrixXd &x) {
@@ -19,3 +23,5 @@ MatrixXd divide_colwise(const MatrixXd &a, const MatrixXd &x) {
   return result;
 }
 
+} // utility
+} // ml

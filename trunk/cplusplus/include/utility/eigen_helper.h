@@ -10,9 +10,11 @@
 
 #include <Eigen/Dense>
 #include <iostream>
-#include "core/definitions.h"
+#include "definitions.h"
 
-using namespace Eigen;
+namespace ml {
+namespace utility {
+    
 
 /**
  * Divides the array a by the array x 
@@ -20,7 +22,8 @@ using namespace Eigen;
  * @param x Matrix dividing a (it must have only one column
  * @return  Matrix with the columns divided element-wise by x
  */
-MatrixXd divide_colwise(const MatrixXd &a, const MatrixXd &x);
+Eigen::MatrixXd divide_colwise(const Eigen::MatrixXd &a,
+                                      const Eigen::MatrixXd &x);
 
 
 /**
@@ -31,15 +34,17 @@ MatrixXd divide_colwise(const MatrixXd &a, const MatrixXd &x);
  * @return A matrix with the selected columns
  * The template parameters are the the the type of the content of the matrix
  * (int, float, double, etc) and the container that stores the indices,
- * (std::vector, VectorXi, etc)
+ * (std::vector, Eigen::VectorXi, etc)
  */
+
 template<class ContentType, typename ContainerType> 
-Matrix<ContentType, Dynamic, Dynamic> select_columns(
-                  const Matrix<ContentType, Dynamic, Dynamic> &m,
-                  const ContainerType &indices) {
+Eigen::Matrix<ContentType, Eigen::Dynamic, Eigen::Dynamic> select_columns(
+          const Eigen::Matrix<ContentType, Eigen::Dynamic, Eigen::Dynamic> &m,
+          const ContainerType &indices) {
   unsigned int rows = m.rows();
   unsigned int n_indices = indices.size();
-  Matrix<ContentType, Dynamic, Dynamic> result(rows, n_indices);
+  Eigen::Matrix<ContentType, 
+                Eigen::Dynamic, Eigen::Dynamic> result(rows, n_indices);
   
   for (unsigned int i=0, col=0; i < n_indices; ++i, ++col) {
     result.col(col) = m.col(indices[i]);
@@ -57,15 +62,15 @@ Matrix<ContentType, Dynamic, Dynamic> select_columns(
  * @return Returns a matrix containing only the rows selected
  */
 template<class ContentType, typename ContainerType> 
-Matrix<ContentType, Dynamic, Dynamic> select_rows(
-                  const Matrix<ContentType, Dynamic, Dynamic> &m,
+Eigen::Matrix<ContentType, Eigen::Dynamic, Eigen::Dynamic> select_rows(
+                  const Eigen::Matrix<ContentType, Eigen::Dynamic, Eigen::Dynamic> &m,
                   const ContainerType &indices) {
   if(indices.empty()) {
     return m;
   }
   unsigned int cols = m.cols();
   unsigned int n_indices = indices.size();
-  Matrix<ContentType, Dynamic, Dynamic> result(n_indices, cols);
+  Eigen::Matrix<ContentType, Eigen::Dynamic, Eigen::Dynamic> result(n_indices, cols);
   for (unsigned int i=0, row=0; i < indices.size(); ++i, ++row) {
     result.row(row) = m.row(indices[i]);
   }
@@ -82,7 +87,7 @@ Matrix<ContentType, Dynamic, Dynamic> select_rows(
  * @return The rows that satisfy the predicate
  */
 template<typename type, class Predicate>
-Ints rows_where_true(const MatrixXd &data, unsigned int column,
+Ints rows_where_true(const Eigen::MatrixXd &data, unsigned int column,
                          Predicate f) {
   Ints new_rows_to_use;
   for(unsigned int i = 0; i < data.rows(); i++) 
@@ -90,6 +95,10 @@ Ints rows_where_true(const MatrixXd &data, unsigned int column,
       new_rows_to_use.push_back(i);
   return new_rows_to_use;
 };
+
+
+} // utility
+} // ml
 
 #endif	/* EIGEN_HELPER_H */
 

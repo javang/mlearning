@@ -5,7 +5,12 @@
 #include "utility/errors.h"
 #include <stdexcept>
 #include <random>
+using namespace Eigen;
+using namespace ml::utility;
+using namespace ml::algorithms;
 
+namespace ml {
+namespace trees {
 
 RandomForest::RandomForest(unsigned int n_trees) {
   n_trees_ = n_trees;
@@ -48,3 +53,7 @@ void RandomForest::check_empty() const {
     throw SizeError("There are no trees in the forest");
   }
 }
+
+
+} // trees
+} // ml

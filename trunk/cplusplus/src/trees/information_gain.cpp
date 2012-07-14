@@ -1,11 +1,17 @@
 #include "trees/information_gain.h"
 #include "algorithms/argsort.h"
 #include "utility/errors.h"
-#include "core/definitions.h"
+#include "definitions.h"
 
 #include <limits>
 #include <iostream>
 #include <cmath>
+
+namespace ml {
+namespace trees {
+using namespace ml::algorithms;
+using namespace ml::utility;
+using namespace Eigen;
 
 GainPair information_gain(const VectorXd &values, const VectorXi &classes, 
                         VariableType vtype, InformationMeasure measure) {
@@ -188,3 +194,5 @@ double entropy(const VectorXd &values) {
   return (-1) * h;
 }
 
+} // trees
+} // ml

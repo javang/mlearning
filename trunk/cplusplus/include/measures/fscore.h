@@ -10,6 +10,10 @@
 
 #include "utility/eigen_helper.h"
 #include "algorithms/confusion_matrix.h"
+using namespace ml::algorithms;
+
+namespace ml {
+namespace measures {
 
 /**
  * FScore for a set of variables.
@@ -19,9 +23,9 @@
  */
 struct FScore {
 private:
-  VectorXd fscore_;
-  VectorXd precision_;
-  VectorXd recall_;
+  Eigen::VectorXd fscore_;
+  Eigen::VectorXd precision_;
+  Eigen::VectorXd recall_;
 public:
   FScore() {};
   
@@ -29,11 +33,11 @@ public:
    * Calculate the fscore given the predictions and the true classes
    * @param classes
    * @param predictions
-   * T can be a std::vector<int> or a VectorXi
+   * T can be a std::vector<int> or a Eigen::VectorXi
    */
   template<class T>
   void calculate(const T &predictions, const T &classes) {
-    MatrixXi cmat = get_confusion_matrix(predictions, classes);
+    Eigen::MatrixXi cmat = get_confusion_matrix(predictions, classes);
     calculate_from_confusion_matrix(cmat);
   }
 
@@ -41,12 +45,12 @@ public:
    * Calculates the fscore using the confusion matrix
    * @param cmat
    */
-  void calculate_from_confusion_matrix(const MatrixXi &cmat);
+  void calculate_from_confusion_matrix(const Eigen::MatrixXi &cmat);
 
   
-  VectorXd get_recall() const;
-  VectorXd get_precision() const ;
-  VectorXd get_fscore() const;
+  Eigen::VectorXd get_recall() const;
+  Eigen::VectorXd get_precision() const ;
+  Eigen::VectorXd get_fscore() const;
 };
 
 
@@ -57,6 +61,9 @@ public:
  */
 int avoid_zero(int x);
 double avoid_zero_double(double x);
+
+} // measures
+} // ml
 
 #endif	/* FSCORE_H */
 

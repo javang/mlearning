@@ -2,7 +2,7 @@
 #include "trees/DecisionTree.h"
 #include "trees/DecisionNode.h"
 #include "algorithms/mode.h"
-#include "core/definitions.h"
+#include "definitions.h"
 #include "utility/print_utils.h"
 #include "algorithms/index_related.h"
 #include "utility/eigen_helper.h"
@@ -10,7 +10,12 @@
 #include <algorithm>
 #include <functional>
 #include <memory>
+using namespace Eigen;
+using namespace ml::algorithms;
+using namespace ml::utility;        
 
+namespace ml {
+namespace trees {
 
 
 void DecisionTree::do_training(const MatrixXd &data, const VectorXi &classes,
@@ -150,3 +155,5 @@ std::tuple<double, unsigned int, double>
   auto result = std::make_tuple(best_gain, best_feature, threshold);
   return result;
 }
+} // trees
+} // ml

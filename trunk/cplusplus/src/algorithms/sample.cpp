@@ -3,6 +3,9 @@
 #include <random>
 #include <algorithm>
 
+namespace ml {
+namespace algorithms {
+
 Ints get_random_sample(unsigned long n_values) {
   Ints v(n_values);
   for (unsigned int i = 0; i < n_values; ++i) v[i] = i;
@@ -15,3 +18,6 @@ Ints get_random_sample(unsigned long n_values) {
   return v; 
 }
 
+
+} // algorithms
+} // ml

@@ -9,6 +9,10 @@
 #include <iostream>
 #include "trees/information_gain.h"
 #include "algorithms/argsort.h"
+using namespace ml;
+using namespace ml::algorithms;
+using namespace ml::trees;
+using namespace Eigen;
 
 TEST(InfoGainTest, TestGetCrossTable) {
   VectorXi classes(10);

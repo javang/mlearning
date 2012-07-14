@@ -2,6 +2,11 @@
 #include "measures/fscore.h"
 #include "algorithms/confusion_matrix.h"
 #include <limits>
+using namespace Eigen;
+
+
+namespace ml {
+namespace measures {
 
 int avoid_zero(int x) {
   if(x == 0) return 1;
@@ -39,3 +44,7 @@ VectorXd FScore::get_precision() const {
 VectorXd FScore::get_fscore() const {
   return fscore_;
 }
+
+
+} // measures
+} // ml

@@ -7,9 +7,12 @@
 
 #include "gtest/gtest.h"
 #include "utility/eigen_helper.h"
-#include "core/definitions.h"
+#include "definitions.h"
 #include <iostream>
 #include <limits>
+using namespace ml;
+using namespace ml::utility;
+using namespace Eigen;
 
 TEST(TestEigenHelper, TestDivideColwise) {
   MatrixXd M(4,3);

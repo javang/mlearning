@@ -3,9 +3,12 @@
 #ifndef ERROR_H
 #define ERROR_H
 
-#include "core/definitions.h"
+#include "definitions.h"
 #include <exception>
 #include <stdexcept>
+
+namespace ml {
+namespace utility {
 
 class WrongParent: public std::runtime_error {
   String msg_;
@@ -52,6 +55,8 @@ public:
   }
 };
 
+} // utility
+} // ml
 
 #endif  /* ERROR_H */
 

@@ -9,12 +9,14 @@
 #define	READ_MATRIX_H
 
 #include <fstream>
-#include "core/definitions.h"
+#include "definitions.h"
 #include "utility/errors.h"
 #include "utility/eigen_helper.h"
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
 
+namespace ml {
+namespace utility {
 
 /**
  * Converts a string to the type used as template parameter
@@ -80,9 +82,9 @@ std::size_t count_lines(const String &filename);
  * parameter
  */
 template<typename T>
-Matrix<T, Dynamic, Dynamic> read_matrix(const String &fn, 
+Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> read_matrix(const String &fn, 
                                         const String &delimiters) {
-  Matrix<T, Dynamic, Dynamic> M;
+  Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> M;
   std::size_t rows = count_lines(fn);
   std::size_t cols = 0;
   std::size_t row = 0;
@@ -120,6 +122,8 @@ Matrix<T, Dynamic, Dynamic> read_matrix(const String &fn,
   } 
 }
 
+} // utility
+} // ml
 
 #endif	/* READ_MATRIX_H */
 

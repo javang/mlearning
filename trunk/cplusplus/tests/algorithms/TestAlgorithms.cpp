@@ -3,8 +3,7 @@
 
 
 #include "utility/eigen_helper.h"
-#include "core/definitions.h"
-
+#include "definitions.h"
 #include "algorithms/argsort.h"
 #include "algorithms/mode.h"
 #include "algorithms/sample.h"
@@ -15,6 +14,11 @@
 #include <cstdlib>
 #include <set>
 #include <functional>
+
+using namespace ml;
+using namespace ml::algorithms;
+using namespace ml::utility;
+using namespace Eigen;
 
 TEST(TestAlgorithms, TestArgsort) {
   Doubles v;

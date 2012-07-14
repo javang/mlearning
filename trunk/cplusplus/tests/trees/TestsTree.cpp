@@ -1,9 +1,12 @@
 #include "gtest/gtest.h"
 #include "trees/TreeNode.h"
 #include "trees/Tree.h"
-#include "core/definitions.h"
+#include "definitions.h"
 #include <iostream>
 #include <algorithm>
+
+using namespace ml;
+using namespace ml::trees;
 
 Ints get_ref_counts(const NodePtrs &nodes) {
   Ints counts;

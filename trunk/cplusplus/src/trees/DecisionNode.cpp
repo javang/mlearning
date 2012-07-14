@@ -1,6 +1,7 @@
 
 #include "trees/DecisionNode.h"
-
+using namespace ml;
+using namespace ml::trees;
 
 bool DecisionNode::matches_value(double value, VariableType vtype) {
     if(vtype == CATEGORICAL) {

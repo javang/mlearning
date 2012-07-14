@@ -8,6 +8,8 @@
 #ifndef INDEX_RELATED_H
 #define	INDEX_RELATED_H
 
+namespace ml {
+namespace algorithms {
 
 
 /**
@@ -49,6 +51,9 @@ Ints get_distances_if(InputIterator first, InputIterator last, Predicate pred) {
   }  
   return distances;
 } 
+
+} // algorithms
+} // ml
 
 #endif	/* INDEX_RELATED_H */
 

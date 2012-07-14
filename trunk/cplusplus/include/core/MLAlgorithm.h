@@ -8,13 +8,19 @@
 #ifndef MLALGORITHM_H
 #define	MLALGORITHM_H
 
-
-class MLAlgorithm {
+namespace ml {
+  namespace core {
+    
+  class MLAlgorithm {
 public:
   virtual ~MLAlgorithm() {};
   
   virtual void show_algorithm_information() const = 0;
 };
+
+
+} // core
+} // ml
 
 #endif	/* MLALGORITHM_H */
 

@@ -15,21 +15,22 @@
 #include "utility/eigen_helper.h"
 #include <vector>
 
+
 /**
  * Fixture to text the measures of information  
  */
 class DecisionTreeTestFixture: public ::testing::Test {
 protected:
-  DecisionTreePtr tree_;
+  ml::trees::DecisionTreePtr tree_;
   unsigned int x;
   unsigned int y;
-  MatrixXd golf_training_set;
-  MatrixXd golf_test_set;
-  VectorXd golf_continuous_humidity;
-  std::vector<VariableType> golf_data_types;
+  Eigen::MatrixXd golf_training_set;
+  Eigen::MatrixXd golf_test_set;
+  Eigen::VectorXd golf_continuous_humidity;
+  std::vector<ml::VariableType> golf_data_types;
   
   virtual void SetUp() {
-    tree_ = DecisionTreePtr(new DecisionTree());
+    tree_ = ml::trees::DecisionTreePtr(new ml::trees::DecisionTree());
     golf_training_set.resize(28,5);
     // GOLF DATASET
     // 1st Column Outlook: sunny=0, overcast=1, rainy=2
@@ -80,7 +81,7 @@ protected:
       
 
       for(unsigned int i = 0; i < golf_training_set.cols()-1; i++)
-        golf_data_types.push_back(CATEGORICAL);
+        golf_data_types.push_back(ml::CATEGORICAL);
     
 }
   virtual void TearDown() {};

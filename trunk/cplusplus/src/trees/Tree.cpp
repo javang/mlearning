@@ -1,7 +1,9 @@
 
 #include "trees/Tree.h"
 #include <algorithm>
-
+using namespace ml;
+using namespace ml::trees;
+        
 void Tree::print_subtree(Node *node, std::ostream &o) const {
   if(node != 0) {
     node->show(o);

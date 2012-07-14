@@ -5,7 +5,13 @@
 #include "utility/print_utils.h"
 #include "utility/read_matrix.h"
 #include "measures/fscore.h"
-#include "core/types.h"
+#include "types.h"
+using namespace ml;
+using namespace ml::trees;
+using namespace ml::utility;
+using namespace ml::measures;
+using namespace Eigen;
+
 
 TEST(RandomForest, RandomForestPrediction) {
   // Read training data (UCI Iris dataset)

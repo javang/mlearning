@@ -6,6 +6,11 @@
 #include "trees/information_gain.h"
 #include "utility/print_utils.h"
 #include <vector>
+using namespace ml;
+using namespace ml::trees;
+using namespace ml::utility;
+using namespace ml::core;
+using namespace Eigen;
 
 TEST_F(DecisionTreeTestFixture, ChildrenWork) {
   // Check at the same type the casting for the children of a decision node 

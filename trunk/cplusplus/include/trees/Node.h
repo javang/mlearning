@@ -9,11 +9,14 @@
 #define	NODE_H
 
 
-#include "core/definitions.h"
+#include "definitions.h"
 #include <vector>
 #include <iostream>
 #include <memory>
 
+namespace ml {
+namespace trees {
+    
 class Node;
 typedef std::shared_ptr< Node > NodePtr;
 typedef std::vector< NodePtr > NodePtrs;
@@ -41,6 +44,8 @@ public:
   virtual void set_name(const String &name) = 0;
 };  
     
+} // trees
+} // ml
 
 #endif	/* NODE_H */
 

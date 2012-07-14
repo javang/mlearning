@@ -12,6 +12,9 @@
 #include <utility>
 #include <set>
 #include <string>
+#include <unordered_map>
+
+namespace ml {
 
 typedef std::vector<int> Ints;
 typedef std::vector<bool> Bools;
@@ -22,6 +25,9 @@ typedef std::vector<IntPair > InPairs;
 typedef std::set<int> IntsSet;
 typedef std::string String;
 typedef std::vector< String > Strings;
+typedef std::unordered_map<int, int> Hash;
+
+} // ml
 
 #endif	/* DEFINITIONS_H */
 

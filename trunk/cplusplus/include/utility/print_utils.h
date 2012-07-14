@@ -10,6 +10,9 @@
 
 #include <ostream>
 
+namespace ml {
+namespace utility {
+
 /**
  * Print the contents of a container that can be explored with an iterator
  * @param first First iterator
@@ -23,6 +26,9 @@ void print(InputIterator first, InputIterator last, std::ostream &out) {
   }
   out << std::endl;
 }
+
+} // utility
+} // ml
 
 #endif	/* PRINT_UTILS_H */
 

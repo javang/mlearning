@@ -3,6 +3,10 @@
 #include <functional>
 #include "algorithms/confusion_matrix.h"
 
+using namespace ml;
+using namespace ml::algorithms;
+using namespace ml::measures;
+using namespace Eigen;
 
 TEST(TestMeasures, AvoidZero) {
   VectorXi v(5);

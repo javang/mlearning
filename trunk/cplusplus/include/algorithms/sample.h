@@ -8,7 +8,12 @@
 #ifndef SAMPLE_H
 #define	SAMPLE_H
 
-#include "core/definitions.h"
+#include "definitions.h"
+
+namespace ml {
+namespace algorithms {
+
+
 /**
  * Return sample of integers from (1,n_values). The number of elements in the
  * sample is also random
@@ -16,6 +21,9 @@
  * @return A vector with the values in the sample
  */
 Ints get_random_sample(unsigned long n_values);
+
+} // algorithms
+} // ml
 
 #endif	/* SAMPLE_H */
 

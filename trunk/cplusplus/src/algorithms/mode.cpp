@@ -2,6 +2,9 @@
 #include "algorithms/mode.h"
 #include <unordered_map>
 
+namespace ml {
+namespace algorithms {
+
 IntPair mode(const int *values, unsigned int size) {
   Hash::iterator it;
   Hash hash;
@@ -24,3 +27,6 @@ IntPair mode(const int *values, unsigned int size) {
   return *found;
 }
 
+
+} // algorithms
+} // ml

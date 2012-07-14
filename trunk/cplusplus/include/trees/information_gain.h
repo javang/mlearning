@@ -4,11 +4,14 @@
 #define INFORMATION_GAIN_H
 
 #include "utility/eigen_helper.h"
-#include "core/definitions.h"
-#include "core/types.h"
+#include "definitions.h"
+#include "types.h"
 #include <utility>
 #include <set>
 #include <vector>
+
+namespace ml {
+namespace trees {
 
 enum InformationMeasure {
   GINI, ENTROPY
@@ -36,7 +39,8 @@ typedef std::pair<double, double> GainPair; // (gain, threshold)
  * \return The function returns a pair (gain, threshold)
  
  */
-GainPair information_gain(const VectorXd &values, const VectorXi &classes,
+GainPair information_gain(const Eigen::VectorXd &values, 
+                          const Eigen::VectorXi &classes,
         VariableType v_type, InformationMeasure measure);
 
 
@@ -54,7 +58,7 @@ GainPair information_gain(const VectorXd &values, const VectorXi &classes,
  * @param values 
  * @return a gain pair  
  */
-double nominal_gini_gain(const VectorXi &values, const VectorXi &classes);
+double nominal_gini_gain(const Eigen::VectorXi &values, const Eigen::VectorXi &classes);
 
 /**
  * Information gain according to the Gini impurity for a continuous variable X.
@@ -64,7 +68,7 @@ double nominal_gini_gain(const VectorXi &values, const VectorXi &classes);
  * @param classes A column vector with the classes for the values
  * @return A pair of values (gain, threshold)
  */
-GainPair continuous_gini_gain(const VectorXd &values, const VectorXi &classes);
+GainPair continuous_gini_gain(const Eigen::VectorXd &values, const Eigen::VectorXi &classes);
 
 
 
@@ -80,10 +84,10 @@ GainPair continuous_gini_gain(const VectorXd &values, const VectorXi &classes);
  * @param classes
  * @return 
  */
-double nominal_entropy_gain(const VectorXi &values, const VectorXi &classes);
+double nominal_entropy_gain(const Eigen::VectorXi &values, const Eigen::VectorXi &classes);
 
-GainPair continuous_entropy_gain(const VectorXd &values,
-                                 const VectorXi &classes);
+GainPair continuous_entropy_gain(const Eigen::VectorXd &values,
+                                 const Eigen::VectorXi &classes);
 
 
 /** Computes the cross table T
@@ -93,28 +97,32 @@ GainPair continuous_entropy_gain(const VectorXd &values,
  * @param values
  * @return the cross table
  */
-MatrixXi get_cross_table(const VectorXi &values, const VectorXi &classes);
+Eigen::MatrixXi get_cross_table(const Eigen::VectorXi &values, 
+                                const Eigen::VectorXi &classes);
 
 /**
  * Cross table in 1D. It is equivalent to a histogram
  * @param values
  * @return The number of times that each value appears
  */
-VectorXi get_cross_table(const VectorXi &values);
+Eigen::VectorXi get_cross_table(const Eigen::VectorXi &values);
 
 /**
  * Computes the gini impurity for a set of values
  * @param values
  * @return The value of the gini impurity
  */
-double gini(const VectorXd &values);
+double gini(const Eigen::VectorXd &values);
 
 /**
  * Computes the Shannon's entropy of a set of values
  * @param values
  * @return the value of the entropy
  */
-double entropy(const VectorXd &values);
+double entropy(const Eigen::VectorXd &values);
+
+} // trees
+} // ml
 
 #endif
 

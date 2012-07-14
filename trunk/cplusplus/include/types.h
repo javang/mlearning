@@ -10,6 +10,8 @@
 
 #include <vector>
 
+namespace ml {
+  
 /**
  * A feature can be categorical or continuous
  */
@@ -18,6 +20,7 @@ enum VariableType {
 };
 typedef std::vector<VariableType> VariableTypes;
 
+} // ml    
 
 #endif	/* TYPES_H */
 

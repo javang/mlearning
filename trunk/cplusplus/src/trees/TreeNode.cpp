@@ -1,6 +1,7 @@
 
 #include "trees/TreeNode.h"
-
+using namespace ml;
+using namespace ml::trees;
 
 void TreeNode::init() {
   first_child_ = NodePtr();

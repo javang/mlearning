@@ -11,10 +11,14 @@
 #include "trees/Tree.h"
 #include "trees/DecisionNode.h"
 #include "trees/information_gain.h"
-#include "core/definitions.h"
+#include "definitions.h"
 #include "core/SupervisedAlgorithm.h"
 #include "utility/eigen_helper.h"
 #include <memory>
+using namespace ml::core;
+
+namespace ml {
+namespace trees {
 
 class DecisionTree: public Tree, public SupervisedClassifier {
 private:
@@ -25,14 +29,14 @@ private:
   * @param classes Class for each of the data points
   */
   void get_tree(DecisionNodePtr node,
-                const MatrixXd &data, 
-                const VectorXi &classes);
+                const Eigen::MatrixXd &data, 
+                const Eigen::VectorXi &classes);
 
   
-  VectorXi get_prediction(const MatrixXd &data) const;
-  int get_prediction_datapoint(const VectorXd &data) const;
-  int get_prediction(DecisionNode *node,  const VectorXd &data_point) const;
-  void do_training(const MatrixXd &data, const VectorXi &classes,
+  Eigen::VectorXi get_prediction(const Eigen::MatrixXd &data) const;
+  int get_prediction_datapoint(const Eigen::VectorXd &data) const;
+  int get_prediction(DecisionNode *node,  const Eigen::VectorXd &data_point) const;
+  void do_training(const Eigen::MatrixXd &data, const Eigen::VectorXi &classes,
               VariableTypes variable_types);   
 protected:
         InformationMeasure information_measure_;
@@ -82,8 +86,8 @@ public:
    * The threshold is 0 if the variable contained in a column is categorical
    */
   std::tuple<double, unsigned int, double>
-                get_best_gain(const MatrixXd &data, 
-                              const VectorXi &classes);
+                get_best_gain(const Eigen::MatrixXd &data, 
+                              const Eigen::VectorXi &classes);
   
   
   void show_algorithm_information() const {
@@ -93,6 +97,9 @@ public:
   
 typedef std::shared_ptr<DecisionTree> DecisionTreePtr;
 typedef std::vector<DecisionTreePtr> DecisionTreePtrs;
+
+} // trees
+} // ml
 
 
 #endif	/* DECISIONTREE_H */

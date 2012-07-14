@@ -9,7 +9,10 @@
 #define	ARGSORT_H
 
 #include <algorithm>
-#include "core/definitions.h"
+#include "definitions.h"
+
+namespace ml {
+namespace algorithms {
 
 template<class InputIterator>
 class CompareWithIterators {
@@ -89,6 +92,8 @@ Ints argsort(const T *values, unsigned int size) {
 }
 
 
+} // algorithms
+} // ml
 
 #endif	/* ARGSORT_H */
 

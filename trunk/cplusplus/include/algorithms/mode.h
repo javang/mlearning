@@ -8,10 +8,12 @@
 #ifndef MODE_H
 #define	MODE_H
 
-#include "core/definitions.h"
-#include <unordered_map>
+#include "definitions.h"
 
-typedef std::unordered_map<int, int> Hash;
+
+namespace ml {
+namespace algorithms {
+
 
 // IntPair mode(const Ints &values);
 
@@ -46,6 +48,9 @@ IntPair mode(const T &values) {
   }
   return *found;
 }
+
+} // algorithms
+} // ml
 
 #endif	/* MODE_H */
 

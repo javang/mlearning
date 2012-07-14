@@ -3,6 +3,9 @@
 #include "utility/read_matrix.h"
 #include "utility/errors.h"
 #include <iostream>
+using namespace ml;
+using namespace ml::utility;
+using namespace Eigen;
 
 TEST(TestReadMatrix, NotFile) {
   ASSERT_THROW(read_matrix<double>("NotFile.txt", " "), std::ios_base::failure);

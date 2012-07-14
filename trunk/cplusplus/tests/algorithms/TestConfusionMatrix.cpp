@@ -2,9 +2,15 @@
 #include "gtest/gtest.h"
 #include "algorithms/confusion_matrix.h"
 #include "utility/eigen_helper.h"
+#include "types.h"
 #include <iostream>
-
 #include <functional>
+
+using namespace ml;
+using namespace ml::algorithms;
+using namespace ml::utility;
+using namespace Eigen;
+
 
 TEST(TestConfusionMatrix, CheckCalculation) {
   Ints classes =     {3,2,1,1,1,2,3,1,2,1,1,4};

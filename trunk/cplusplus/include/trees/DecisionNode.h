@@ -8,6 +8,10 @@
 #include <iostream>
 #include <memory.h>
 
+namespace ml {
+namespace trees {
+
+
 class DecisionNode: public TreeNode {
 
 protected:
@@ -121,5 +125,7 @@ public:
 typedef std::shared_ptr<DecisionNode> DecisionNodePtr;
 typedef std::vector<DecisionNodePtr > DecisionNodePtrs;
 
+} // trees
+} // ml
 
 #endif

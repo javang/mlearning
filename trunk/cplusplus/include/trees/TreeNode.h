@@ -3,12 +3,15 @@
 #define TREENODE_H
 
 //#include "utility/errors.h"
-#include "core/definitions.h"
+#include "definitions.h"
 #include "trees/Node.h"
 #include <vector>
 #include <string>
 #include <iostream>
 #include <memory>
+
+namespace ml {
+namespace trees {
 
 class TreeNode;
 typedef std::shared_ptr< TreeNode > TreeNodePtr;
@@ -98,6 +101,8 @@ public:
 };
 
 
+} // trees
+} // ml
 
 #endif
 

@@ -8,7 +8,7 @@
 #ifndef CONFUSION_MATRIX_H
 #define	CONFUSION_MATRIX_H
 
-#include "core/definitions.h"
+#include "definitions.h"
 #include "utility/print_utils.h"
 #include "utility/eigen_helper.h"
 #include <algorithm> 
@@ -16,8 +16,11 @@
 #include <cassert>
 #include <map>
 
+namespace ml {
+namespace algorithms {
+
 template <class FirstIterator,class SecondIterator>
-MatrixXi get_confusion_matrix(FirstIterator predictions_first,
+Eigen::MatrixXi get_confusion_matrix(FirstIterator predictions_first,
                           FirstIterator predictions_last,
                           SecondIterator classes_first,
                           SecondIterator classes_last) {
@@ -28,7 +31,7 @@ MatrixXi get_confusion_matrix(FirstIterator predictions_first,
   IntsSet unique_predictions(predictions_first, predictions_last);
   unsigned int size = unique_classes.size() > unique_predictions.size() ? 
                          unique_classes.size() : unique_predictions.size();
-  MatrixXi cmat = MatrixXi::Zero(size, size);
+  Eigen::MatrixXi cmat = Eigen::MatrixXi::Zero(size, size);
   std::map< int, int> class_to_index;
   std::map< int, int> prediction_to_index;
   
@@ -64,7 +67,7 @@ MatrixXi get_confusion_matrix(FirstIterator predictions_first,
  * @return The confusion matrix
  */
 template<class T>
-MatrixXi get_confusion_matrix(const T &predictions,
+Eigen::MatrixXi get_confusion_matrix(const T &predictions,
                               const T &classes) {
   assert(predictions.size() == classes.size());  
   IntsSet unique_classes, unique_predictions;
@@ -76,7 +79,7 @@ MatrixXi get_confusion_matrix(const T &predictions,
   }
   unsigned int size = unique_classes.size() > unique_predictions.size() ? 
                          unique_classes.size() : unique_predictions.size();
-  MatrixXi cmat = MatrixXi::Zero(size, size);
+  Eigen::MatrixXi cmat = Eigen::MatrixXi::Zero(size, size);
   std::map< int, int> class_to_index;
   std::map< int, int> prediction_to_index;
   unsigned int index = 0;
@@ -95,9 +98,11 @@ MatrixXi get_confusion_matrix(const T &predictions,
     cmat(pi.second, pj.second) += 1;
   }
   return cmat;
-}long
+}
 
 
+} // algorithms
+} // ml
 
 
 #endif	/* CONFUSION_MATRIX_H */

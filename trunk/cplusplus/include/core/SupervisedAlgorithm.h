@@ -9,15 +9,16 @@
 #define	SUPERVISEDALGORITHM_H
 
 #include "utility/eigen_helper.h"
-#include "core/types.h"
 #include "core/MLAlgorithm.h"
+#include "types.h"
 
-
+namespace ml {
+namespace core {
 
 class SupervisedClassifier: public MLAlgorithm {
 private:
-  virtual void do_training(const MatrixXd &data, 
-                           const VectorXi &classes,
+  virtual void do_training(const Eigen::MatrixXd &data, 
+                           const Eigen::VectorXi &classes,
                            VariableTypes variable_types) = 0;
   
   /**
@@ -25,14 +26,14 @@ private:
    * @param data a set of data points
    * @return A vector with the classes for the data points
    */
-  virtual VectorXi get_prediction(const MatrixXd &data) const = 0 ; 
+  virtual Eigen::VectorXi get_prediction(const Eigen::MatrixXd &data) const = 0 ; 
   
   /**
    * Prediction for a single data point
    * @param datapoint
    * @return The class the datapoint belongs to
    */
-  virtual int get_prediction_datapoint(const VectorXd &datapoint) const = 0 ; 
+  virtual int get_prediction_datapoint(const Eigen::VectorXd &datapoint) const = 0 ; 
   
   
   // disable copy construction and assignment
@@ -48,9 +49,9 @@ public:
    * @param classes Classes of the points in the data
    * @param variable_types Types of the features in the data 
    */
-  void train(const MatrixXd &data,
-             const VectorXi &classes,
-             VariableTypes variable_types) {
+  void train(const Eigen::MatrixXd &data,
+             const Eigen::VectorXi &classes,
+             ml::VariableTypes variable_types) {
     do_training(data, classes, variable_types);
   };
   
@@ -59,7 +60,7 @@ public:
    * @param data
    * @return the classes for the data points
    */
-  VectorXi predict(const MatrixXd &data) const {
+  Eigen::VectorXi predict(const Eigen::MatrixXd &data) const {
     return get_prediction(data);
   };
   
@@ -68,7 +69,7 @@ public:
    * @param datapoint
    * @return get the class the point belongs to
    */
-  int predict_datapoint(const VectorXd &datapoint) const {
+  int predict_datapoint(const Eigen::VectorXd &datapoint) const {
     return get_prediction_datapoint(datapoint);
   };
   
@@ -80,9 +81,9 @@ public:
 class SupervisedRegression: public MLAlgorithm  {
   
 private:
-  virtual void do_training(const MatrixXd &data, const VectorXd &values) = 0;
-  virtual VectorXd get_prediction(const MatrixXd &data) const = 0 ; 
-  virtual double get_prediction(const VectorXd &data) const = 0 ; 
+  virtual void do_training(const Eigen::MatrixXd &data, const Eigen::VectorXd &values) = 0;
+  virtual Eigen::VectorXd get_prediction(const Eigen::MatrixXd &data) const = 0 ; 
+  virtual double get_prediction(const Eigen::VectorXd &data) const = 0 ; 
   
   
   SupervisedRegression(const SupervisedRegression &s);        
@@ -93,21 +94,21 @@ public:
   
   SupervisedRegression();
 
-  void train(const MatrixXd &data, const VectorXd &values);
+  void train(const Eigen::MatrixXd &data, const Eigen::VectorXd &values);
     
   /**
    * Get a prediction for a data point
    * @param datapoint
    * @return get the class the point belongs to
    */
-  double predict(const VectorXd &datapoint) const;
+  double predict(const Eigen::VectorXd &datapoint) const;
   
   /**
   * Get predictions for a set of data points
   * @param data
   * @return the classes for the data points
   */
-  VectorXd predict(const MatrixXd &data);
+  Eigen::VectorXd predict(const Eigen::MatrixXd &data);
   
   
   virtual ~SupervisedRegression() {};
@@ -117,6 +118,9 @@ public:
 };
 
 typedef std::shared_ptr<SupervisedClassifier> SupervisedClassifierPtr;
+
+} // core
+} // ml
 
 #endif	/* SUPERVISEDALGORITHM_H */
 

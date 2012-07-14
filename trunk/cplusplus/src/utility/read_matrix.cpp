@@ -5,6 +5,9 @@
 #include <fstream>
 #include <stdexcept>
 
+namespace ml {
+namespace utility {
+
 std::size_t read_buffer(std::istream *in, Chars &buffer ) {
   in->read( &buffer[0], buffer.size());
   std::size_t n = in->gcount();
@@ -43,3 +46,7 @@ std::size_t istream_count_lines(std::istream *fh) {
   } while(n_chars_read != 0);
   return lines;
 }
+
+
+} // utility
+} // ml
