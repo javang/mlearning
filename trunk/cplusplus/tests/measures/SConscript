@@ -1,7 +1,7 @@
 import os
 
-Import('env')
-objects = [env.Object(f) for f in Glob("*cpp")]
+Import('env_tests')
+objects = [env_tests.Object(f) for f in Glob("*cpp")]
 inputs = Glob(os.path.join(".", "input", "*"))
 Return("objects", "inputs")    
 

@@ -37,7 +37,7 @@ variables.Add(PathVariable("google_test_dir",
 variables.Add("compiler", "The compiler to use", default="g++")
 
 env = Environment(variables=variables)
-env['ENV'] = {'PATH' : path, 'TERM' : term, 'HOME' : home}
+env['ENV'] = {'PATH': path, 'TERM': term, 'HOME': home }
 env['CPPPATH'] = ["#include", "/usr/include"] # the symbol "#" means the directory where SConstruct is
 eigen_dir = env['eigen_dir']
 env['CPPPATH'].append(eigen_dir)
@@ -45,37 +45,47 @@ env['CXXFLAGS'] = ["-std=c++0x", "-fPIC", "-g"]
 env["CXX"] = env["compiler"] 
 eigen_dir = env['eigen_dir']
 required_headers = [eigen_dir+"/Eigen/Dense"]
-conf = Configure(env)
-check_headers(conf, required_headers)
 
 # for nice compiling colors
 col = colorizer()
 col.colorize(env)
 
-# Build and install directories
+# Build and install dynamic library 
+conf = Configure(env)
+check_headers(conf, required_headers)
+env = conf.Finish()
+
 build_dir = env['build_dir']
 install_dir = env['install_dir']
-test_build_dir = os.path.join(env['build_dir'], "tests")
-test_install_dir = os.path.join(install_dir,"tests")
-
-# Build and install dynamic library 
 VariantDir(build_dir, "src", duplicate=False)
 mlearning = SConscript("%s/SConscript" % build_dir, exports=['env','dirs'])
 VariantDir(install_dir, ".", duplicate=False)
 Install(install_dir, mlearning)
 
+
 # Build and install tests
-google_test_dir = env['google_test_dir']
-env['CPPPATH'].append([google_test_dir + "/include"])
+env_tests = env.Clone()
+conf_tests = Configure(env_tests)
+
 build_path = os.path.abspath(build_dir)
-env['LIBPATH'] = [google_test_dir + "/lib", build_path]
-VariantDir(test_build_dir, "tests", duplicate=False)
-tests_exec, input_files = SConscript("%s/SConscript" % test_build_dir, 
-                                     exports=['env','dirs'])
-VariantDir(test_install_dir, ".", duplicate=False)
-Install(test_install_dir, [tests_exec])
-input_dir = os.path.join(test_install_dir, "input")
-VariantDir(input_dir, ".", duplicate=False)
-Install(input_dir, [ input_files])
+test_build_dir = os.path.join(build_dir, "tests")
+test_install_dir = os.path.join(install_dir,"tests")
+google_test_dir = env_tests["google_test_dir"]
+env_tests['LIBPATH'] = [build_path]
+env_tests['LIBPATH'].append( os.path.join(google_test_dir, "lib"))
+env_tests['CPPPATH'].append(os.path.join(google_test_dir, "include"))
+
+if not conf_tests.CheckLibWithHeader("gtest", "gtest/gtest.h", "c++"):
+    print "Google Test Library not found. Test are not built"
+else:
+    env_tests = conf_tests.Finish()
+    VariantDir(test_build_dir, "tests", duplicate=False)
+    tests_exec, input_files = SConscript("%s/SConscript" % test_build_dir, 
+                                         exports=['env_tests','dirs'])
+    VariantDir(test_install_dir, ".", duplicate=False)
+    Install(test_install_dir, [tests_exec])
+    input_dir = os.path.join(test_install_dir, "input")
+    VariantDir(input_dir, ".", duplicate=False)
+    Install(input_dir, [ input_files])
 
 

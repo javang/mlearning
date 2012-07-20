@@ -1,17 +1,18 @@
 import os
 
-Import('env','dirs')
+Import('env_tests','dirs')
+
 objects = []
 input_files = []
 for d in dirs:
-    objs, inputs = SConscript("%s/SConscript" % d, exports='env')
+    objs, inputs = SConscript("%s/SConscript" % d, exports='env_tests')
     if objs != None:
         objects.extend(objs)
     if inputs != None and len(inputs) != 0:
         input_files.extend(inputs)
 
 objects.append("main.cpp")
-tests_exec = env.Program('tests_exec', objects, LIBS=["mlearning", "gtest"])
+tests_exec = env_tests.Program('tests_exec', objects, LIBS=["mlearning", "gtest"])
 Return("tests_exec", "input_files")
 
 
