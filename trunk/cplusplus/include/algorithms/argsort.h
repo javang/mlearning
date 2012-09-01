@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   argsort.h
  * Author: javi
  *
@@ -61,8 +61,8 @@ public:
 
 /**
  * Performs an argsort for the elements between the iterator
- * @param first Iterator to the first element 
- * @param last Iterator to the last element 
+ * @param first Iterator to the first element
+ * @param last Iterator to the last element
  * @return The indices that sort the elements of "values" in ascending order
  */
 template<class InputIterator>
@@ -70,7 +70,7 @@ Ints argsort(InputIterator first, InputIterator last) {
   unsigned int size = std::distance(first, last);
   Ints indices(size);
   CompareWithIterators<InputIterator> compare(first);
-  std::sort(indices.begin(),indices.end(), compare);  
+  std::sort(indices.begin(),indices.end(), compare);
   return indices;
 }
 
@@ -87,7 +87,7 @@ Ints argsort(const T *values, unsigned int size) {
   Ints indices_(size);
   for( int i = 0; i < size; ++i ) indices_[i] = i;
   CompareWithPointers<T> compare(values);
-  std::sort(indices_.begin(),indices_.end(), compare);  
+  std::sort(indices_.begin(),indices_.end(), compare);
   return indices_;
 }
 

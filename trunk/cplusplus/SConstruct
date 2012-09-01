@@ -1,8 +1,8 @@
 import os
 import os.path
 import glob
-from colorizer import colorizer
-
+from buildtools.colorizer import colorizer
+import buildtools.ErrorColor as ErrorColor
 
 def check_headers(conf, files):
     for d in files:
@@ -17,7 +17,8 @@ def check_headers(conf, files):
 
 # directories in the project
 fn_config = 'scons_config.py'
-dirs = ["utility", "algorithms", "trees", "core", "measures"]
+dirs = ["utility", "algorithms", "trees", "core",   "measures"]
+
 
 
 #################################
@@ -36,6 +37,11 @@ variables.Add(PathVariable("google_test_dir",
      "directory containg the google_test, include, and lib directories",""))
 variables.Add("compiler", "The compiler to use", default="g++")
 
+
+#################################
+# Environment
+#################################
+
 env = Environment(variables=variables)
 env['ENV'] = {'PATH': path, 'TERM': term, 'HOME': home }
 env['CPPPATH'] = ["#include", "/usr/include"] # the symbol "#" means the directory where SConstruct is
@@ -43,14 +49,21 @@ eigen_dir = env['eigen_dir']
 env['CPPPATH'].append(eigen_dir)
 env['CXXFLAGS'] = ["-std=c++0x", "-fPIC", "-g"] 
 env["CXX"] = env["compiler"] 
-eigen_dir = env['eigen_dir']
-required_headers = [eigen_dir+"/Eigen/Dense"]
 
+buf = ErrorColor.ErrorColor()
+buf.env = env
+env['SPAWN'] = buf.buffered_spawn     
 # for nice compiling colors
 col = colorizer()
 col.colorize(env)
 
+
+
+
+
 # Build and install dynamic library 
+eigen_dir = env['eigen_dir']
+required_headers = [eigen_dir+"/Eigen/Dense"]
 conf = Configure(env)
 check_headers(conf, required_headers)
 env = conf.Finish()
@@ -63,7 +76,10 @@ VariantDir(install_dir, ".", duplicate=False)
 Install(install_dir, mlearning)
 
 
+#################################
 # Build and install tests
+#################################
+
 env_tests = env.Clone()
 conf_tests = Configure(env_tests)
 
