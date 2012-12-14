@@ -69,6 +69,7 @@ template<class InputIterator>
 Ints argsort(InputIterator first, InputIterator last) {
   unsigned int size = std::distance(first, last);
   Ints indices(size);
+  for (unsigned int i = 0; i < size; ++i) indices[i] = i;
   CompareWithIterators<InputIterator> compare(first);
   std::sort(indices.begin(),indices.end(), compare);
   return indices;
